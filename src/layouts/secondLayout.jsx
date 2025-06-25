@@ -36,9 +36,8 @@ const SecondLayout = () => {
           <div className="bg-white rounded-2xl flex-col py-[1rem] mx-auto flex md:hidden items-center shadow-md max-w-5xl">
             
             {/* Destination */}
-            <div className="flex-1 px-4 py-3 border-gray-200">
+            <div className="flex-1 px-4 py-3 border-gray-200  flex justify-center text-center">
               <div className="flex items-center space-x-3">
-                <MapPin className="w-5 h-5 text-gray-400" />
                 <div className="flex-1">
                   <label className="block text-sm font-semibold mb-1">
                     Where are you going?
@@ -48,16 +47,15 @@ const SecondLayout = () => {
                     placeholder="Search your destination"
                     value={searchData.destination}
                     onChange={(e) => handleInputChange('destination', e.target.value)}
-                    className="w-full border-none outline-none text-gray-900 placeholder-gray-400"
+                    className="w-full border-none outline-none text-gray-900 text-center placeholder-gray-400"
                   />
                 </div>
               </div>
             </div>
   
             {/* Check In */}
-            <div className="flex-1 px-4 py-3  border-gray-200">
+            <div className="flex-1 px-4 py-3  border-gray-200  flex justify-center text-center">
               <div className="flex items-center space-x-3">
-                <Calendar className="w-5 h-5 text-gray-400" />
                 <div className="flex-1">
                   <label className="block text-sm font-semibold mb-1">
                     Check in
@@ -67,16 +65,15 @@ const SecondLayout = () => {
                     placeholder="Select date"
                     value={searchData.checkIn}
                     onChange={(e) => handleInputChange('checkIn', e.target.value)}
-                    className="w-full border-none outline-none text-gray-900 placeholder-gray-400"
+                    className="w-full border-none outline-none text-gray-900 text-center placeholder-gray-400"
                   />
                 </div>
               </div>
             </div>
   
             {/* Check Out */}
-            <div className="flex-1 px-4 py-3 border-gray-200">
+            <div className="flex-1 px-4 py-3 border-gray-200 flex justify-center text-center">
               <div className="flex items-center space-x-3">
-                <Calendar className="w-5 h-5 text-gray-400" />
                 <div className="flex-1">
                   <label className="block text-sm font-semibold mb-1">
                     Check out
@@ -86,16 +83,15 @@ const SecondLayout = () => {
                     placeholder="Select date"
                     value={searchData.checkOut}
                     onChange={(e) => handleInputChange('checkOut', e.target.value)}
-                    className="w-full border-none outline-none text-gray-900 placeholder-gray-400"
+                    className="w-full border-none outline-none text-gray-900 text-center placeholder-gray-400"
                   />
                 </div>
               </div>
             </div>
   
             {/* Guests */}
-            <div className="flex-1 px-4 py-3 border-gray-200">
+            <div className="flex-1 px-4 py-3 border-gray-200 flex justify-center text-center">
               <div className="flex items-center space-x-3">
-                <Users className="w-5 h-5 text-gray-400" />
                 <div className="flex-1">
                   <label className="block text-sm font-semibold mb-1">
                     Guests
@@ -105,7 +101,7 @@ const SecondLayout = () => {
                     placeholder="Add number of guests"
                     value={searchData.guests}
                     onChange={(e) => handleInputChange('guests', e.target.value)}
-                    className="w-full border-none outline-none text-gray-900 placeholder-gray-400"
+                    className="w-full border-none outline-none text-gray-900 text-center placeholder-gray-400"
                     min="1"
                   />
                 </div>
@@ -113,10 +109,10 @@ const SecondLayout = () => {
             </div>
   
             {/* Search Button */}
-            <div className="px-2 pt-4">
+            <div className="px-2 pt-4 text-black ">
               <button
                 onClick={handleSearch}
-                className="bg-tertiary text-white py-4 px-[4rem] rounded-full transition-colors duration-200 flex items-center justify-between"
+                className="bg-tertiary  py-4 px-[4rem] rounded-full transition-colors duration-200 flex items-center justify-between"
               >
                 <p className='mr-3 text-md font-semibold'>Search Stay</p>
                 <Search className="w-6 h-6" />

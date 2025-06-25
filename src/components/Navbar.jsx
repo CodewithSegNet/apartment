@@ -1,17 +1,35 @@
 import Logo from "../assets/logo.svg";
 import burger from "../assets/burger.svg";
 import profile from "../assets/profile.svg";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
   const [user, setUser] = useState(null);
-  const [activeTab, setActiveTab] = useState("apartments");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Use React Router's useLocation and useNavigate
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Determine active tab based on current route
+  const getActiveTab = () => {
+    if (location.pathname === "/car-rentals") {
+      return "car-rental";
+    }
+    return "apartments"; // default for home page "/"
+  };
+
+  const [activeTab, setActiveTab] = useState(getActiveTab());
+
+  // Update activeTab when route changes
+  useEffect(() => {
+    setActiveTab(getActiveTab());
+  }, [location.pathname]);
 
   // New states for enhanced functionality
   const [registerStep, setRegisterStep] = useState(1);
@@ -70,15 +88,15 @@ const Navbar = () => {
   };
 
   const handleTabClick = (tab) => {
-    setActiveTab(tab);
     setIsMobileMenuOpen(false);
-    // Simulate navigation - replace with your actual routing logic
+    
+    // Use React Router navigation instead of window.location.href
     if (tab === "car-rental") {
-      // Here you would navigate to /car-rental page
-      console.log("Navigating to /car-rental");
+      navigate("/car-rentals");
+      console.log("Navigating to /car-rentals");
     } else if (tab === "apartments") {
-      // Here you would navigate to /apartments page
-      console.log("Navigating to /apartments");
+      navigate("/");
+      console.log("Navigating to /");
     }
   };
 
@@ -141,52 +159,75 @@ const Navbar = () => {
     <>
       <nav className="fixed top-0 left-0 right-0 bg-white z-50 shadow-sm">
         <div className="flex max-w-screen-2xl mx-auto p-3 items-center justify-between relative">
-          <div>
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
             <img src={Logo} alt="Logo" className="h-10" />
-          </div>
+          </motion.div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
-            <ul className="flex">
-              <button
+            <div className="flex relative p-1">
+              <motion.button
                 onClick={() => handleTabClick("apartments")}
-                className={`px-4 py-2 transition-colors duration-200 ${
+                className={`relative z-10 px-6 py-2 flex-1 transition-all duration-300 ${
                   activeTab === "apartments"
                     ? "text-black font-medium"
                     : "text-gray-500 hover:text-gray-700"
                 }`}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                Apartments
-              </button>
+                <motion.span
+                  animate={{
+                    color: activeTab === "apartments" ? "#000000" : "#6b7280"
+                  }}
+                  transition={{ duration: 0.2 }}
+                >
+                  Apartments
+                </motion.span>
+              </motion.button>
 
-              <button
+              <motion.button
                 onClick={() => handleTabClick("car-rental")}
-                className={`px-4 py-2 transition-colors duration-200 ${
+                className={`relative z-10 px-6 py-2 flex-1 transition-all duration-300 ${
                   activeTab === "car-rental"
                     ? "text-black font-medium"
                     : "text-gray-500 hover:text-gray-700"
                 }`}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                Car rentals
-              </button>
-            </ul>
+                <motion.span
+                  animate={{
+                    color: activeTab === "car-rental" ? "#000000" : "#6b7280"
+                  }}
+                  transition={{ duration: 0.2 }}
+                >
+                  Car rentals
+                </motion.span>
+              </motion.button>
+            </div>
           </div>
 
           {/* Desktop Right Side */}
           <div className="hidden md:flex bg-tertiary p-2 rounded-full items-center gap-3">
             <div className="relative">
-              <button
+              <motion.button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <motion.img
                   src={burger}
                   alt="Menu"
                   animate={{ rotate: isDropdownOpen ? 90 : 0 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.3, type: "spring", stiffness: 200 }}
                   className="w-4 h-4"
                 />
-              </button>
+              </motion.button>
 
               <AnimatePresence>
                 {isDropdownOpen && (
@@ -194,39 +235,47 @@ const Navbar = () => {
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ duration: 0.2, type: "spring", stiffness: 300 }}
                     className="absolute right-[-80px] mt-4 w-39 bg-white rounded-2xl text-sm shadow-lg border px-3 border-gray-200 py-2 z-50"
                   >
                     {user ? (
                       <>
-                        <button
+                        <motion.button
                           onClick={() => handleAuthClick("dashboard")}
                           className="w-full text-left py-2 px-3 text-gray-700 hover:font-semibold transition-colors duration-200"
+                          whileHover={{ x: 4 }}
+                          transition={{ type: "spring", stiffness: 300 }}
                         >
                           Dashboard
-                        </button>
+                        </motion.button>
 
-                        <button
+                        <motion.button
                           onClick={handleLogout}
                           className="w-full text-left py-2 px-3 text-gray-700 hover:font-semibold border-t transition-colors duration-200"
+                          whileHover={{ x: 4 }}
+                          transition={{ type: "spring", stiffness: 300 }}
                         >
                           Logout
-                        </button>
+                        </motion.button>
                       </>
                     ) : (
                       <>
-                        <button
+                        <motion.button
                           onClick={() => handleAuthClick("signin")}
                           className="w-full text-left py-2 px-3 text-gray-700 hover:font-semibold hover:font-semibold transition-colors duration-200"
+                          whileHover={{ x: 4 }}
+                          transition={{ type: "spring", stiffness: 300 }}
                         >
                           Sign In
-                        </button>
-                        <button
+                        </motion.button>
+                        <motion.button
                           onClick={() => handleAuthClick("register")}
                           className="w-full text-left py-2 px-3 text-gray-700 hover:font-semibold border-t transition-colors duration-200"
+                          whileHover={{ x: 4 }}
+                          transition={{ type: "spring", stiffness: 300 }}
                         >
                           Register
-                        </button>
+                        </motion.button>
                       </>
                     )}
                   </motion.div>
@@ -234,34 +283,55 @@ const Navbar = () => {
               </AnimatePresence>
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-gray-700">
+            <motion.div 
+              className="flex items-center gap-2"
+              whileHover={{ scale: 1.02 }}
+            >
+              <motion.span 
+                className="text-sm font-medium text-gray-700"
+                animate={{ opacity: user ? 1 : 0.7 }}
+                transition={{ duration: 0.3 }}
+              >
                 {user ? user.name : "Guest"}
-              </span>
-              <img src={profile} alt="Profile" className="w-6 h-6" />
-            </div>
+              </motion.span>
+              <motion.img 
+                src={profile} 
+                alt="Profile" 
+                className="w-6 h-6"
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.5 }}
+              />
+            </motion.div>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-2">
             <div className="flex items-center gap-2">
-              <img src={profile} alt="Profile" className="w-6 h-6" />
+              <motion.img 
+                src={profile} 
+                alt="Profile" 
+                className="w-6 h-6"
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.5 }}
+              />
               <span className="text-sm font-medium text-gray-700 hidden sm:block">
                 {user ? user.name : "Guest"}
               </span>
             </div>
-            <button
+            <motion.button
               onClick={toggleMobileMenu}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               <motion.img
                 src={burger}
                 alt="Menu"
                 animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.3, type: "spring", stiffness: 200 }}
                 className="w-6 h-6"
               />
-            </button>
+            </motion.button>
           </div>
         </div>
       </nav>
@@ -273,61 +343,96 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.3, type: "spring", stiffness: 200 }}
             className="md:hidden fixed top-16 left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-40"
           >
             <div className="max-w-screen-2xl mx-auto px-3 py-4 space-y-2">
               {/* Mobile Navigation Links */}
               <div className="space-y-1">
-                <button
+                <motion.button
                   onClick={() => handleTabClick("apartments")}
-                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors duration-200 ${
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 ${
                     activeTab === "apartments"
                       ? "bg-gray-100 text-base font-medium"
                       : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
                   }`}
+                  whileHover={{ x: 4, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 }}
                 >
-                  Apartments
-                </button>
+                  <motion.div
+                    animate={{
+                      color: activeTab === "apartments" ? "#000" : "#6b7280"
+                    }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    Apartments
+                  </motion.div>
+                </motion.button>
 
-                <button
+                <motion.button
                   onClick={() => handleTabClick("car-rental")}
-                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors duration-200 ${
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 ${
                     activeTab === "car-rental"
                       ? "bg-gray-100 text-bases font-medium"
                       : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
                   }`}
+                  whileHover={{ x: 4, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.15 }}
                 >
-                  Car rentals
-                </button>
+                  <motion.div
+                    animate={{
+                      color: activeTab === "car-rental" ? "#000" : "#6b7280"
+                    }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    Car rentals
+                  </motion.div>
+                </motion.button>
               </div>
 
               {/* Mobile Auth Buttons */}
-              <div className="border-t border-gray-200 pt-2 mt-2 space-y-1">
+              <motion.div 
+                className="border-t border-gray-200 pt-2 mt-2 space-y-1"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+              >
                 {user ? (
-                  <button
+                  <motion.button
                     onClick={handleLogout}
                     className="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors duration-200"
+                    whileHover={{ x: 4, scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     Logout
-                  </button>
+                  </motion.button>
                 ) : (
                   <>
-                    <button
+                    <motion.button
                       onClick={() => handleAuthClick("signin")}
                       className="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors duration-200"
+                      whileHover={{ x: 4, scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                     >
                       Sign In
-                    </button>
-                    <button
+                    </motion.button>
+                    <motion.button
                       onClick={() => handleAuthClick("register")}
                       className="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors duration-200"
+                      whileHover={{ x: 4, scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                     >
                       Register
-                    </button>
+                    </motion.button>
                   </>
                 )}
-              </div>
+              </motion.div>
             </div>
           </motion.div>
         )}
@@ -347,17 +452,22 @@ const Navbar = () => {
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
               className="bg-white rounded-2xl p-6 w-full max-w-xl mx-4 shadow-xl"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between items-center mb-6">
-                <div>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
                   <img src={Logo} className="h-10" alt="" />
-                </div>
-                <button
+                </motion.div>
+                <motion.button
                   onClick={handleModalClose}
                   className="text-gray-400 hover:text-gray-600 transition-colors duration-200 p-1"
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
                 >
                   <svg
                     className="w-6 h-6"
@@ -372,17 +482,26 @@ const Navbar = () => {
                       d="M6 18L18 6M6 6l12 12"
                     />
                   </svg>
-                </button>
+                </motion.button>
               </div>
 
               {/* Sign In Form */}
               {modalType === "signin" && (
-                <div className="space-y-3">
+                <motion.div 
+                  className="space-y-3"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
                   <h3 className="text-sm font-semibold text-center">
                     Sign In To Your Account
                   </h3>
                   <div className="w-full">
-                    <div className="flex items-center border border-gray-300 rounded-full overflow-hidden focus-within:ring-2 focus-within:ring-blue-500">
+                    <motion.div 
+                      className="flex items-center border border-gray-300 rounded-full overflow-hidden focus-within:ring-2 focus-within:ring-blue-500"
+                      whileFocus={{ scale: 1.02 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
                       <span className="px-4 text-sm text-gray-500 border-r border-gray-300">
                         Email
                       </span>
@@ -392,11 +511,15 @@ const Navbar = () => {
                         className="flex-1 px-3 py-[13px] text-xs focus:outline-none"
                         placeholder="Enter your email"
                       />
-                    </div>
+                    </motion.div>
                   </div>
 
                   <div className="w-full">
-                    <div className="flex items-center border border-gray-300 rounded-full overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 relative">
+                    <motion.div 
+                      className="flex items-center border border-gray-300 rounded-full overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 relative"
+                      whileFocus={{ scale: 1.02 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
                       {/* Left inline label with separator */}
                       <span className="px-4 text-sm text-gray-500 border-r border-gray-300">
                         Password
@@ -412,10 +535,12 @@ const Navbar = () => {
                       />
 
                       {/* Show/hide password button */}
-                      <button
+                      <motion.button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
                       >
                         {showPassword ? (
                           <svg
@@ -452,26 +577,30 @@ const Navbar = () => {
                             />
                           </svg>
                         )}
-                      </button>
-                    </div>
+                      </motion.button>
+                    </motion.div>
                   </div>
 
                   {/* Forgotten Password */}
                   <div className="text-right">
-                    <button
+                    <motion.button
                       onClick={() => console.log("Forgot password clicked")}
                       className="text-xs text-primary hover:text-blue-700 font-medium"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                     >
                       Forgotten Password?
-                    </button>
+                    </motion.button>
                   </div>
 
-                  <button
+                  <motion.button
                     onClick={handleLogin}
                     className="w-full bg-primary text-white py-3 px-4 rounded-full hover:bg-opacity-80 transition-colors duration-200 font-medium text-sm"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     Sign In
-                  </button>
+                  </motion.button>
 
                   {/* Divider */}
                   <div className="flex items-center my-6">
@@ -483,9 +612,11 @@ const Navbar = () => {
                   </div>
 
                   {/* Google Sign In */}
-                  <button
+                  <motion.button
                     onClick={handleGoogleSignIn}
                     className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors duration-200 font-medium text-sm"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     <svg className="w-5 h-5" viewBox="0 0 24 24">
                       <path
@@ -506,17 +637,25 @@ const Navbar = () => {
                       />
                     </svg>
                     Continue with Google
-                  </button>
-                </div>
+                  </motion.button>
+                </motion.div>
               )}
 
               {/* Register Form */}
               {modalType === "register" && (
-                <div className="space-y-3">
+                <motion.div 
+                  className="space-y-3"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
                   {registerStep === 1 && (
                     <>
                       <div className="w-full">
-                        <div className="flex items-center border border-gray-300 rounded-full overflow-hidden focus-within:ring-2 focus-within:ring-blue-500">
+                        <motion.div 
+                          className="flex items-center border border-gray-300 rounded-full overflow-hidden focus-within:ring-2 focus-within:ring-blue-500"
+                          whileFocus={{ scale: 1.02 }}
+                        >
                           <span className="px-4 text-sm text-gray-500 border-r border-gray-300">
                             Email
                           </span>
@@ -526,7 +665,7 @@ const Navbar = () => {
                             className="flex-1 px-3 py-[13px] text-xs focus:outline-none"
                             placeholder="Enter your email"
                           />
-                        </div>
+                        </motion.div>
                       </div>
 
                       {/* Password Field */}
@@ -861,7 +1000,7 @@ const Navbar = () => {
                       </div>
                     </>
                   )}
-                </div>
+                </motion.div>
               )}
             </motion.div>
           </motion.div>

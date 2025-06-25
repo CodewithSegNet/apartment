@@ -48,12 +48,11 @@ Book luxury apartments and short-let stays with ease. Experience comfort, conven
         </div>
 
         {/* Search Filter */}
-        <div className="hidden bg-white rounded-full mx-auto md:flex items-center shadow-lg max-w-5xl">
+        <div className="hidden bg-white text-xs whitespace-nowrap rounded-full mx-auto md:flex items-center shadow-lg">
           
           {/* Destination */}
           <div className="flex-1 px-4 py-3 border-r border-gray-200">
             <div className="flex items-center space-x-3">
-              <MapPin className="w-5 h-5 text-gray-400" />
               <div className="flex-1">
                 <label className="block text-sm font-semibold mb-1">
                   Where are you going?
@@ -72,7 +71,6 @@ Book luxury apartments and short-let stays with ease. Experience comfort, conven
           {/* Check In */}
           <div className="flex-1 px-4 py-3 border-r border-gray-200">
             <div className="flex items-center space-x-3">
-              <Calendar className="w-5 h-5 text-gray-400" />
               <div className="flex-1">
                 <label className="block text-sm font-semibold mb-1">
                   Check in
@@ -91,7 +89,6 @@ Book luxury apartments and short-let stays with ease. Experience comfort, conven
           {/* Check Out */}
           <div className="flex-1 px-4 py-3 border-r border-gray-200">
             <div className="flex items-center space-x-3">
-              <Calendar className="w-5 h-5 text-gray-400" />
               <div className="flex-1">
                 <label className="block text-sm font-semibold mb-1">
                   Check out
@@ -110,7 +107,6 @@ Book luxury apartments and short-let stays with ease. Experience comfort, conven
           {/* Guests */}
           <div className="flex-1 px-4 py-3 border-r border-gray-200">
             <div className="flex items-center space-x-3">
-              <Users className="w-5 h-5 text-gray-400" />
               <div className="flex-1">
                 <label className="block text-sm font-semibold mb-1">
                   Guests
@@ -133,7 +129,7 @@ Book luxury apartments and short-let stays with ease. Experience comfort, conven
               onClick={handleSearch}
               className="bg-tertiary text-white p-4 rounded-full transition-colors duration-200 flex items-center justify-center"
             >
-              <Search className="w-6 h-6" />
+              <Search className="w-6 h-6 text-black" />
             </button>
           </div>
         </div>

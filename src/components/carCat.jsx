@@ -1,55 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import door from "../assets/door.svg"
 import filter from "../assets/filter.svg"
-import hotel from "../assets/hotel.svg"
-import house from "../assets/house.svg"
-import space3 from "../assets/space.svg"
+import carIcon1 from "../assets/carIcon1.svg"
+import carIcon2 from "../assets/carIcon2.svg"
+import carIcon3 from "../assets/carIcon4.svg"
 
-import house1 from "../assets/house1.webp"
-import house2 from "../assets/house2.webp"
-import house3 from "../assets/house3.webp"
-import house4 from "../assets/house4.webp"
-import house5 from "../assets/house5.webp"
+import car1 from "../assets/car1.webp"
+import car2 from "../assets/car2.webp"
+import car3 from "../assets/car3.webp"
+import car4 from "../assets/car4.webp"
+import car5 from "../assets/car5.webp"
 
-
-
-
-import house6 from "../assets/house02.webp"
-import house7 from "../assets/house03.webp"
-import house8 from "../assets/house04.webp"
-import house9 from "../assets/house05.webp"
-import house10 from "../assets/house6.webp"
-import house11 from "../assets/house7.webp"
-import house12 from "../assets/house8.webp"
-import house13 from "../assets/house10.webp"
-import house14 from "../assets/house11.webp"
-import house15 from "../assets/house12.webp"
-
-
+import car6 from "../assets/car2.webp"
+import car7 from "../assets/car3.webp"
+import car8 from "../assets/car4.webp"
+import car9 from "../assets/car5.webp"
+import car10 from "../assets/car6.webp"
+import car11 from "../assets/car7.webp"
+import car12 from "../assets/car8.webp"
+import car13 from "../assets/car10.webp"
 
 const HousingCat = () => {
-  const [activeCategory, setActiveCategory] = useState('New Apartments');
+  // FIX: Initialize with 'Suv' instead of 'New Apartments'
+  const [activeCategory, setActiveCategory] = useState('Suv');
   const [likedProperties, setLikedProperties] = useState(new Set());
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [displayedProperties, setDisplayedProperties] = useState([]);
   const [showMoreExplore, setShowMoreExplore] = useState(false);
 
   const categories = [
-    { id: 'new', name: 'New Apartments', icon: house },
-    { id: 'studio', name: 'Studio Apartments', icon: door },
-    { id: 'duplex', name: 'Duplex', icon: hotel },
-    { id: 'bungalow', name: 'Bungalow', icon: space3 },
+    { id: 'Suv', name: 'Suv', icon: carIcon1 },
+    { id: 'Sedan', name: 'Sedan', icon: carIcon2 },
+    { id: 'Van', name: 'Van', icon: carIcon3 },
     { id: 'filter', name: 'Filter', icon: filter }
   ];
 
   // Mock data for properties
   const mockProperties = {
-    'New Apartments': [
+    'Suv': [
       {
         id: 1,
-        images: [house1, house2, house3, house4, house5],
+        images: [car1, car2, car3, car4, car5],
         type: '2 Bedroom Apartment',
         location: 'Gwarinpa, Abuja',
         posted: 'Posted 1 month ago',
@@ -58,7 +50,7 @@ const HousingCat = () => {
       },
       {
         id: 2,
-        images: [house7, house2, house3, house4, house5],
+        images: [car7, car2, car3, car4, car5],
         type: '3 Bedroom Apartment',
         location: 'Maitama, Abuja',
         posted: 'Posted 3 weeks ago',
@@ -67,7 +59,7 @@ const HousingCat = () => {
       },
       {
         id: 3,
-        images: [house6, house2, house3, house4, house5],
+        images: [car6, car2, car3, car4, car5],
         type: '1 Bedroom Apartment',
         location: 'Wuse 2, Abuja',
         posted: 'Posted 2 weeks ago',
@@ -75,10 +67,10 @@ const HousingCat = () => {
         rating: 4.5
       }
     ],
-    'Studio Apartments': [
+    'Sedan': [
       {
         id: 4,
-        images: [house7, house2, house3, house4, house5],
+        images: [car7, car2, car3, car4, car5],
         type: 'Modern Studio',
         location: 'Garki, Abuja',
         posted: 'Posted 1 week ago',
@@ -87,7 +79,7 @@ const HousingCat = () => {
       },
       {
         id: 5,
-        images: [house2, house2, house3, house4, house5],
+        images: [car2, car2, car3, car4, car5],
         type: 'Luxury Studio',
         location: 'Asokoro, Abuja',
         posted: 'Posted 2 months ago',
@@ -96,7 +88,7 @@ const HousingCat = () => {
       },
       {
         id: 6,
-        images: [house8, house2, house3, house4, house5],
+        images: [car8, car2, car3, car4, car5],
         type: 'Cozy Studio',
         location: 'Kubwa, Abuja',
         posted: 'Posted 1 month ago',
@@ -104,10 +96,10 @@ const HousingCat = () => {
         rating: 4.2
       }
     ],
-    'Duplex': [
+    'Van': [
       {
         id: 7,
-        images: [house9, house2, house3, house4, house5],
+        images: [car9, car2, car3, car4, car5],
         type: '4 Bedroom Duplex',
         location: 'Gwarinpa, Abuja',
         posted: 'Posted 2 months ago',
@@ -116,7 +108,7 @@ const HousingCat = () => {
       },
       {
         id: 8,
-        images: [house3, house2, house3, house4, house5],
+        images: [car3, car2, car3, car4, car5],
         type: '5 Bedroom Duplex',
         location: 'Maitama, Abuja',
         posted: 'Posted 1 month ago',
@@ -125,7 +117,7 @@ const HousingCat = () => {
       },
       {
         id: 9,
-        images: [house10, house2, house3, house4, house5],
+        images: [car10, car2, car3, car4, car5],
         type: '3 Bedroom Duplex',
         location: 'Jahi, Abuja',
         posted: 'Posted 3 weeks ago',
@@ -133,70 +125,12 @@ const HousingCat = () => {
         rating: 4.6
       }
     ],
-    'Bungalow': [
-      {
-        id: 10,
-        images: [house11, house2, house3, house4, house5],
-        type: '3 Bedroom Bungalow',
-        location: 'Lugbe, Abuja',
-        posted: 'Posted 1 month ago',
-        amount: 50000,
-        rating: 4.4
-      },
-      {
-        id: 11,
-        images: [house15, house2, house3, house4, house5],
-        type: '2 Bedroom Bungalow',
-        location: 'Kuje, Abuja',
-        posted: 'Posted 2 weeks ago',
-        amount: 35000,
-        rating: 4.1
-      },
-      {
-        id: 12,
-        images: [house12, house2, house3, house4, house5],
-        type: '4 Bedroom Bungalow',
-        location: 'Gwagwalada, Abuja',
-        posted: 'Posted 3 months ago',
-        amount: 60000,
-        rating: 4.3
-      }
-    ],
-    'Hotel': [
-      {
-        id: 13,
-        images: [house5, house2, house3, house4, house5],
-        type: 'Luxury Hotel Room',
-        location: 'Central Area, Abuja',
-        posted: 'Posted 1 week ago',
-        amount: 15000,
-        rating: 4.7
-      },
-      {
-        id: 14,
-        images: [house14, house2, house3, house4, house5],
-        type: 'Business Hotel Suite',
-        location: 'Garki, Abuja',
-        posted: 'Posted 2 days ago',
-        amount: 25000,
-        rating: 4.5
-      },
-      {
-        id: 15,
-        images: [house13, house2, house3, house4, house5],
-        type: 'Budget Hotel Room',
-        location: 'Wuse, Abuja',
-        posted: 'Posted 1 week ago',
-        amount: 8000,
-        rating: 4.0
-      }
-    ]
   };
 
   const exploreProperties = [
     {
       id: 16,
-        images: [house5, house2, house3, house4, house5],
+      images: [car5, car2, car3, car4, car5],
       type: '4 Bedroom Duplex',
       location: 'Gwarinpa, Abuja',
       posted: 'Posted 2 months ago',
@@ -205,7 +139,7 @@ const HousingCat = () => {
     },
     {
       id: 17,
-        images: [house15, house2, house3, house4, house5],
+      images: [car2, car3, car4, car5],
       type: '2 Bedroom Apartment',
       location: 'Maitama, Abuja',
       posted: 'Posted 1 month ago',
@@ -214,7 +148,7 @@ const HousingCat = () => {
     },
     {
       id: 18,
-        images: [house13, house2, house3, house4, house5],
+      images: [car13, car2, car3, car4, car5],
       type: '3 Bedroom Bungalow',
       location: 'Asokoro, Abuja',
       posted: 'Posted 3 weeks ago',
@@ -223,7 +157,7 @@ const HousingCat = () => {
     },
     {
       id: 19,
-        images: [house12, house2, house3, house4, house5],
+      images: [car12, car2, car3, car4, car5],
       type: 'Luxury Studio',
       location: 'Wuse 2, Abuja',
       posted: 'Posted 1 week ago',
@@ -232,7 +166,7 @@ const HousingCat = () => {
     },
     {
       id: 20,
-        images: [house11, house2, house3, house4, house5],
+      images: [car11, car2, car3, car4, car5],
       type: '5 Bedroom Duplex',
       location: 'Jahi, Abuja',
       posted: 'Posted 2 weeks ago',
@@ -241,7 +175,7 @@ const HousingCat = () => {
     },
     {
       id: 21,
-        images: [house10, house2, house3, house4, house5],
+      images: [car10, car2, car3, car4, car5],
       type: '3 Bedroom Apartment',
       location: 'Garki, Abuja',
       posted: 'Posted 1 month ago',
@@ -250,7 +184,7 @@ const HousingCat = () => {
     },
     {
       id: 22,
-        images: [house9, house2, house3, house4, house5],
+      images: [car9, car2, car3, car4, car5],
       type: '2 Bedroom Duplex',
       location: 'Kubwa, Abuja',
       posted: 'Posted 3 weeks ago',
@@ -259,7 +193,7 @@ const HousingCat = () => {
     },
     {
       id: 23,
-        images: [house8, house2, house3, house4, house5],
+      images: [car8, car2, car3, car4, car5],
       type: 'Executive Studio',
       location: 'Central Area, Abuja',
       posted: 'Posted 1 week ago',
@@ -268,7 +202,7 @@ const HousingCat = () => {
     },
     {
       id: 24,
-        images: [house7, house2, house3, house4, house5],
+      images: [car7, car2, car3, car4, car5],
       type: '4 Bedroom Bungalow',
       location: 'Lugbe, Abuja',
       posted: 'Posted 2 weeks ago',
@@ -277,7 +211,7 @@ const HousingCat = () => {
     },
     {
       id: 25,
-        images: [house6, house2, house3, house4, house5],
+      images: [car6, car2, car3, car4, car5],
       type: '1 Bedroom Apartment',
       location: 'Wuse, Abuja',
       posted: 'Posted 1 month ago',
@@ -286,7 +220,7 @@ const HousingCat = () => {
     },
     {
       id: 26,
-        images: [house4, house2, house3, house4, house5],
+      images: [car4, car2, car3, car4, car5],
       type: '3 Bedroom Duplex',
       location: 'Maitama, Abuja',
       posted: 'Posted 2 months ago',
@@ -295,8 +229,8 @@ const HousingCat = () => {
     },
     {
       id: 27,
-        images: [house2, house2, house3, house4, house5],
-      type: 'Penthouse Suite',
+      images: [car2, car2, car3, car4, car5],
+      type: 'Pentcar Suite',
       location: 'Asokoro, Abuja',
       posted: 'Posted 1 week ago',
       amount: 150000,
@@ -388,12 +322,10 @@ const HousingCat = () => {
               </div>
             </>
           )}
-          
-
         </div>
         
         <div className="!relative p-3">
-                      <button
+          <button
             onClick={() => toggleLike(property.id)}
             className="absolute top-5 right-3 p-3 rounded-full bg-tertiary hover:bg-tertiary transition-all duration-200"
           >
@@ -493,9 +425,9 @@ const HousingCat = () => {
         <div className="mb-16">
           <div className="text-center mb-8">
             <h2 className="text-[24px] font-bold mb-1 text-left"> 
-              Top Picks for your Unmatched comfort.
+              Best Deals In Your Location
             </h2>
-            <p className="text-gray-600 text-left text-xs mb-4">Stay in top-rated apartments loved by our guests for luxury, convenience, and prime locations.</p>
+            <p className="text-gray-600 text-left text-xs mb-4">Explore unbeatable car rental deals near you. Get the best rates on top-quality vehicles for a smooth and affordable ride.</p>
           </div>
           
           <div 

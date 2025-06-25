@@ -1,8 +1,8 @@
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import Navbar from "../../components/Navbar"
 import Footer from "../../components/footer"
-import HomepageBooking from "../../layouts/homeBookings"
-import SecondLayout from "../../layouts/secondLayout"
+import HomepageBooking from "../../layouts/carBookings"
+import SecondLayout from "../../layouts/CarSecondLayout"
 
 
 const HomePage = () => {
