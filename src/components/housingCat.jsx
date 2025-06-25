@@ -454,14 +454,14 @@ const HousingCat = () => {
       <section className='max-w-screen-2xl mx-auto'>
         {/* Category Navigation */}
         <div className='flex items-center justify-center mb-12 relative'>
-          <div className='flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-8 relative bg-white/80 backdrop-blur-sm rounded-2xl p-2 mt-[2.5rem]'>
+          <div className='flex flex-col md:flex-row space-y-5 justify-center md:space-y-0 md:space-x-8 relative bg-white/80 backdrop-blur-sm rounded-2xl p-2 mt-[2.5rem]'>
             {categories.map((category, index) => (
               <div
                 key={category.id}
                 className={`${
                   category.name === 'Filter' 
-                    ? 'flex items-center p-3 gap-2 bg-tertiary cursor-pointer transition-all duration-300 rounded-full group relative' 
-                    : 'flex flex-col items-center cursor-pointer transition-all duration-300 pb-[5x] px-1 rounded-full group relative'
+                    ? 'flex items-center p-3 gap-2 bg-tertiary justify-center cursor-pointer transition-all duration-300 rounded-full group relative' 
+                    : 'flex flex-col items-center cursor-pointer transition-all justify-center duration-300 pb-[5x] px-1 rounded-full group relative'
                 } ${
                   activeCategory === category.name 
                     ? '' 
