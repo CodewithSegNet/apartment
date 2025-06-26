@@ -28,14 +28,43 @@ const CarBookings = () => {
   return (
     <>
       <div 
-        className="relative bg-cover bg-center mx-auto max-w-screen-2xl bg-no-repeat rounded-2xl overflow-hidden"
+        className="relative mx-auto max-w-screen-2xl rounded-2xl overflow-hidden"
         style={{
-          height: '476px',
-  backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${homeImg})`
+          height: '476px'
         }}
       >
+        {/* Animated Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url(${homeImg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            animation: 'slowZoom 12s ease-in-out infinite alternate'
+          }}
+        />
+        
+        {/* Static Linear Gradient Overlay */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3))'
+          }}
+        />
+
+        <style jsx>{`
+          @keyframes slowZoom {
+            0% {
+              transform: scale(1);
+            }
+            100% {
+              transform: scale(1.05);
+            }
+          }
+        `}</style>
+
         {/* Content Container */}
-        <div className="h-full flex mt-[2.8rem] flex-col justify-center px-6 md:px-12">
+        <div className="h-full flex mt-[2.8rem] flex-col justify-center px-6 md:px-12 relative z-10">
           
           {/* Header Text - Center Left */}
           <div className="mb-8 max-w-[600px]">
