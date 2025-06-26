@@ -260,22 +260,23 @@ const Navbar = () => {
                       </>
                     ) : (
                       <>
-                        <motion.button
-                          onClick={() => handleAuthClick("signin")}
-                          className="w-full text-left py-2 px-3 text-gray-700 hover:font-semibold hover:font-semibold transition-colors duration-200"
-                          whileHover={{ x: 4 }}
-                          transition={{ type: "spring", stiffness: 300 }}
-                        >
-                          Sign In
-                        </motion.button>
-                        <motion.button
+                           <motion.button
                           onClick={() => handleAuthClick("register")}
-                          className="w-full text-left py-2 px-3 text-gray-700 hover:font-semibold border-t transition-colors duration-200"
+                          className="w-full text-left py-2 px-3 text-gray-700 hover:font-semibold transition-colors duration-200"
                           whileHover={{ x: 4 }}
                           transition={{ type: "spring", stiffness: 300 }}
                         >
                           Register
                         </motion.button>
+                        <motion.button
+                          onClick={() => handleAuthClick("signin")}
+                          className="w-full text-left py-2 px-3 text-gray-700 hover:font-semibold  border-t hover:font-semibold transition-colors duration-200"
+                          whileHover={{ x: 4 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          Sign In
+                        </motion.button>
+                   
                       </>
                     )}
                   </motion.div>
@@ -298,8 +299,8 @@ const Navbar = () => {
                 src={profile} 
                 alt="Profile" 
                 className="w-6 h-6"
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.5 }}
+                // whileHover={{ rotate: 360 }}
+                // transition={{ duration: 0.5 }}
               />
             </motion.div>
           </div>

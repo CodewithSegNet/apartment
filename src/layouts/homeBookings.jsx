@@ -194,22 +194,23 @@ const HomeBookings = () => {
 
               {/* Guests Dropdown */}
               {showGuestDropdown && (
-                <div className="!absolute top-[-220px] left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg p-4 min-w-[280px]" style={{ zIndex: 9999 }}>
+                <div className="!absolute top-[-150px] left-[-80px] right-0 mt-2 bg-white min-w-[440px] p-4 rounded-xl" style={{ zIndex: 9999 }}>
                   <div className="space-y-4">
                     <div className="text-sm font-semibold text-gray-700 mb-3">
                       Select Number of Guests
                     </div>
                     
-                    {/* Adults */}
-                    <div className="flex items-center justify-between">
-                      <div>
+                    <div className='flex items-center'>
+                                    {/* Adults */}
+                    <div className="flex flex-col  border-r px-2  items-center justify-between">
+                      <div className='flex items-center gap-1 mb-4'>
                         <div className="font-medium text-gray-900">Adults</div>
-                        <div className="text-sm text-gray-500">12+ Years</div>
+                        <div className="text-xs text-gray-500">12+ Years</div>
                       </div>
                       <div className="flex items-center space-x-3">
                         <button
                           onClick={() => handleGuestChange('adults', 'decrease')}
-                          className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50"
+                          className="w-8 h-8 rounded-full  bg-tertiary  flex items-center justify-center hover:bg-primary disabled:opacity-50"
                           disabled={searchData.guests.adults <= 1}
                         >
                           -
@@ -217,7 +218,7 @@ const HomeBookings = () => {
                         <span className="w-8 text-center">{searchData.guests.adults}</span>
                         <button
                           onClick={() => handleGuestChange('adults', 'increase')}
-                          className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                          className="w-8 h-8 rounded-full  bg-tertiary flex items-center justify-center hover:bg-primary "
                         >
                           +
                         </button>
@@ -225,15 +226,15 @@ const HomeBookings = () => {
                     </div>
 
                     {/* Children */}
-                    <div className="flex items-center justify-between">
-                      <div>
+                    <div className="flex flex-col  border-r  px-2  items-center justify-between">
+                      <div className='flex items-center gap-1 mb-4'>
                         <div className="font-medium text-gray-900">Children</div>
-                        <div className="text-sm text-gray-500">2-12 Years</div>
+                        <div className="text-xs text-gray-500">2-12 Years</div>
                       </div>
                       <div className="flex items-center space-x-3">
                         <button
                           onClick={() => handleGuestChange('children', 'decrease')}
-                          className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50"
+                          className="w-8 h-8 rounded-full  bg-tertiary  flex items-center justify-center hover:bg-primary  disabled:opacity-50"
                           disabled={searchData.guests.children <= 0}
                         >
                           -
@@ -241,7 +242,7 @@ const HomeBookings = () => {
                         <span className="w-8 text-center">{searchData.guests.children}</span>
                         <button
                           onClick={() => handleGuestChange('children', 'increase')}
-                          className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                          className="w-8 h-8 rounded-full  bg-tertiary  flex items-center justify-center hover:bg-primary"
                         >
                           +
                         </button>
@@ -249,15 +250,15 @@ const HomeBookings = () => {
                     </div>
 
                     {/* Infants */}
-                    <div className="flex items-center justify-between">
-                      <div>
+                    <div className="flex flex-col px-2 items-center justify-between">
+                      <div className='flex items-center gap-1 mb-4'>
                         <div className="font-medium text-gray-900">Infants</div>
-                        <div className="text-sm text-gray-500">&lt; 2 Years</div>
+                        <div className="text-xs text-gray-500">&lt; 2 Years</div>
                       </div>
                       <div className="flex items-center space-x-3">
                         <button
                           onClick={() => handleGuestChange('infants', 'decrease')}
-                          className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50"
+                          className="w-8 h-8 rounded-full flex bg-tertiary items-center justify-center hover:bg-primary  disabled:opacity-50"
                           disabled={searchData.guests.infants <= 0}
                         >
                           -
@@ -265,12 +266,14 @@ const HomeBookings = () => {
                         <span className="w-8 text-center">{searchData.guests.infants}</span>
                         <button
                           onClick={() => handleGuestChange('infants', 'increase')}
-                          className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                          className="w-8 h-8 rounded-full bg-tertiary flex items-center justify-center hover:bg-primary "
                         >
                           +
                         </button>
                       </div>
                     </div>
+                    </div>
+      
                   </div>
                 </div>
               )}
