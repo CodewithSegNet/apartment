@@ -41,7 +41,7 @@ const CarCat = () => {
       {
         id: 1,
         images: [car1, car2, car3, car4, car5],
-        type: '2 Bedroom Apartment',
+        type: '2014 Toyota Corolla',
         location: 'Gwarinpa, Abuja',
         posted: 'Posted 1 month ago',
         amount: 45000,
@@ -50,7 +50,7 @@ const CarCat = () => {
       {
         id: 2,
         images: [car7, car2, car3, car4, car5],
-        type: '3 Bedroom Apartment',
+        type: '2016 Toyota Prado',
         location: 'Maitama, Abuja',
         posted: 'Posted 3 weeks ago',
         amount: 65000,
@@ -59,7 +59,7 @@ const CarCat = () => {
       {
         id: 3,
         images: [car6, car2, car3, car4, car5],
-        type: '1 Bedroom Apartment',
+        type: '2017 Toyota Land Cruiser',
         location: 'Wuse 2, Abuja',
         posted: 'Posted 2 weeks ago',
         amount: 35000,
@@ -70,7 +70,7 @@ const CarCat = () => {
       {
         id: 4,
         images: [car7, car2, car3, car4, car5],
-        type: 'Modern Studio',
+        type: '2009 Honda Accord',
         location: 'Garki, Abuja',
         posted: 'Posted 1 week ago',
         amount: 25000,
@@ -79,7 +79,7 @@ const CarCat = () => {
       {
         id: 5,
         images: [car2, car2, car3, car4, car5],
-        type: 'Luxury Studio',
+        type: '2010 Honda Pilot',
         location: 'Asokoro, Abuja',
         posted: 'Posted 2 months ago',
         amount: 40000,
@@ -88,7 +88,7 @@ const CarCat = () => {
       {
         id: 6,
         images: [car8, car2, car3, car4, car5],
-        type: 'Cozy Studio',
+        type: '2009 Toyota Camry',
         location: 'Kubwa, Abuja',
         posted: 'Posted 1 month ago',
         amount: 20000,
@@ -117,7 +117,7 @@ const CarCat = () => {
       {
         id: 9,
         images: [car10, car2, car3, car4, car5],
-        type: '3 Bedroom Duplex',
+        type: '2018 Toyota Camry',
         location: 'Jahi, Abuja',
         posted: 'Posted 3 weeks ago',
         amount: 70000,
@@ -130,7 +130,7 @@ const CarCat = () => {
     {
       id: 16,
       images: [car5, car2, car3, car4, car5],
-      type: '4 Bedroom Duplex',
+      type: ' 2009 Toyota Camry',
       location: 'Gwarinpa, Abuja',
       posted: 'Posted 2 months ago',
       amount: 55000,
@@ -139,7 +139,7 @@ const CarCat = () => {
     {
       id: 17,
       images: [car2, car3, car4, car5],
-      type: '2 Bedroom Apartment',
+      type: '2009 Toyota Camry',
       location: 'Maitama, Abuja',
       posted: 'Posted 1 month ago',
       amount: 75000,
@@ -148,7 +148,7 @@ const CarCat = () => {
     {
       id: 18,
       images: [car13, car2, car3, car4, car5],
-      type: '3 Bedroom Bungalow',
+      type: '2009 Toyota Camry',
       location: 'Asokoro, Abuja',
       posted: 'Posted 3 weeks ago',
       amount: 90000,
@@ -157,7 +157,7 @@ const CarCat = () => {
     {
       id: 19,
       images: [car12, car2, car3, car4, car5],
-      type: 'Luxury Studio',
+      type: '2009 Toyota Camry',
       location: 'Wuse 2, Abuja',
       posted: 'Posted 1 week ago',
       amount: 45000,
@@ -166,7 +166,7 @@ const CarCat = () => {
     {
       id: 20,
       images: [car11, car2, car3, car4, car5],
-      type: '5 Bedroom Duplex',
+      type: '2009 Toyota Camry',
       location: 'Jahi, Abuja',
       posted: 'Posted 2 weeks ago',
       amount: 110000,
@@ -175,7 +175,7 @@ const CarCat = () => {
     {
       id: 21,
       images: [car10, car2, car3, car4, car5],
-      type: '3 Bedroom Apartment',
+      type: '2009 Toyota Camry',
       location: 'Garki, Abuja',
       posted: 'Posted 1 month ago',
       amount: 52000,
@@ -184,7 +184,7 @@ const CarCat = () => {
     {
       id: 22,
       images: [car9, car2, car3, car4, car5],
-      type: '2 Bedroom Duplex',
+      type: '2009 Toyota Camry',
       location: 'Kubwa, Abuja',
       posted: 'Posted 3 weeks ago',
       amount: 38000,
@@ -193,7 +193,7 @@ const CarCat = () => {
     {
       id: 23,
       images: [car8, car2, car3, car4, car5],
-      type: 'Executive Studio',
+      type: '2009 Toyota Camry',
       location: 'Central Area, Abuja',
       posted: 'Posted 1 week ago',
       amount: 35000,
@@ -202,7 +202,7 @@ const CarCat = () => {
     {
       id: 24,
       images: [car7, car2, car3, car4, car5],
-      type: '4 Bedroom Bungalow',
+      type: '2009 Toyota Camry',
       location: 'Lugbe, Abuja',
       posted: 'Posted 2 weeks ago',
       amount: 65000,
@@ -211,7 +211,7 @@ const CarCat = () => {
     {
       id: 25,
       images: [car6, car2, car3, car4, car5],
-      type: '1 Bedroom Apartment',
+      type: '2009 Toyota Camry',
       location: 'Wuse, Abuja',
       posted: 'Posted 1 month ago',
       amount: 28000,
@@ -220,7 +220,7 @@ const CarCat = () => {
     {
       id: 26,
       images: [car4, car2, car3, car4, car5],
-      type: '3 Bedroom Duplex',
+      type: '2009 Toyota Camry',
       location: 'Maitama, Abuja',
       posted: 'Posted 2 months ago',
       amount: 85000,
@@ -229,7 +229,7 @@ const CarCat = () => {
     {
       id: 27,
       images: [car2, car2, car3, car4, car5],
-      type: 'Pentcar Suite',
+      type: '2009 Toyota Camry',
       location: 'Asokoro, Abuja',
       posted: 'Posted 1 week ago',
       amount: 150000,
