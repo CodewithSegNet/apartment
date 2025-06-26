@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Heart, ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import filter from "../assets/filter.svg"
@@ -21,8 +21,7 @@ import car11 from "../assets/car7.webp"
 import car12 from "../assets/car8.webp"
 import car13 from "../assets/car10.webp"
 
-const HousingCat = () => {
-  // FIX: Initialize with 'Suv' instead of 'New Apartments'
+const CarCat = () => {
   const [activeCategory, setActiveCategory] = useState('Suv');
   const [likedProperties, setLikedProperties] = useState(new Set());
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -238,50 +237,142 @@ const HousingCat = () => {
     }
   ];
 
-  const toggleLike = (propertyId) => {
-    const newLiked = new Set(likedProperties);
-    if (newLiked.has(propertyId)) {
-      newLiked.delete(propertyId);
-    } else {
-      newLiked.add(propertyId);
-    }
-    setLikedProperties(newLiked);
-  };
+  const toggleLike = useCallback((propertyId, e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    
+    setLikedProperties(prev => {
+      const newLiked = new Set(prev);
+      if (newLiked.has(propertyId)) {
+        newLiked.delete(propertyId);
+      } else {
+        newLiked.add(propertyId);
+      }
+      return newLiked;
+    });
+  }, []);
 
   const PropertyCard = ({ property, showCarousel = true, index = 0 }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [imageLoading, setImageLoading] = useState(true);
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragStart, setDragStart] = useState(0);
+    const [dragOffset, setDragOffset] = useState(0);
+    const [isAnimating, setIsAnimating] = useState(false);
 
-    const nextImage = () => {
+    const nextImage = useCallback(() => {
+      if (isAnimating) return;
+      setIsAnimating(true);
       setCurrentImageIndex((prev) => 
         prev === property.images.length - 1 ? 0 : prev + 1
       );
-    };
+      setTimeout(() => setIsAnimating(false), 300);
+    }, [property.images.length, isAnimating]);
 
-    const prevImage = () => {
+    const prevImage = useCallback(() => {
+      if (isAnimating) return;
+      setIsAnimating(true);
       setCurrentImageIndex((prev) => 
         prev === 0 ? property.images.length - 1 : prev - 1
       );
+      setTimeout(() => setIsAnimating(false), 300);
+    }, [property.images.length, isAnimating]);
+
+    const handleTouchStart = (e) => {
+      if (property.images.length <= 1) return;
+      setIsDragging(true);
+      setDragStart(e.touches[0].clientX);
+      setDragOffset(0);
+    };
+
+    const handleTouchMove = (e) => {
+      if (!isDragging || property.images.length <= 1) return;
+      const currentX = e.touches[0].clientX;
+      const diff = currentX - dragStart;
+      setDragOffset(diff);
+    };
+
+    const handleTouchEnd = () => {
+      if (!isDragging || property.images.length <= 1) return;
+      setIsDragging(false);
+      
+      const threshold = 50;
+      if (Math.abs(dragOffset) > threshold) {
+        if (dragOffset > 0) {
+          prevImage();
+        } else {
+          nextImage();
+        }
+      }
+      setDragOffset(0);
+    };
+
+    const handleMouseDown = (e) => {
+      if (property.images.length <= 1) return;
+      setIsDragging(true);
+      setDragStart(e.clientX);
+      setDragOffset(0);
+    };
+
+    const handleMouseMove = (e) => {
+      if (!isDragging || property.images.length <= 1) return;
+      const currentX = e.clientX;
+      const diff = currentX - dragStart;
+      setDragOffset(diff);
+    };
+
+    const handleMouseUp = () => {
+      if (!isDragging || property.images.length <= 1) return;
+      setIsDragging(false);
+      
+      const threshold = 50;
+      if (Math.abs(dragOffset) > threshold) {
+        if (dragOffset > 0) {
+          prevImage();
+        } else {
+          nextImage();
+        }
+      }
+      setDragOffset(0);
+    };
+
+    const handleMouseLeave = () => {
+      if (isDragging) {
+        handleMouseUp();
+      }
     };
 
     return (
       <div className="bg-white overflow-hidden transition-shadow duration-300 group">
         <div className="relative overflow-hidden">
           <div 
-            className="relative w-full h-[350px] rounded-xl overflow-hidden"
+            className="relative w-full h-[350px] rounded-xl overflow-hidden cursor-grab select-none"
             style={{
-              transform: `translateX(-${currentImageIndex * 100}%)`,
-              transition: 'transform 0.3s ease-in-out'
+              cursor: isDragging ? 'grabbing' : 'grab'
             }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseLeave}
           >
-            <div className="flex w-full h-full">
+            <div 
+              className="flex w-full h-full transition-transform duration-300 ease-out"
+              style={{
+                transform: `translateX(calc(-${currentImageIndex * 100}% + ${isDragging ? dragOffset : 0}px))`,
+                transition: isDragging ? 'none' : 'transform 0.3s ease-out'
+              }}
+            >
               {property.images.map((image, idx) => (
                 <img 
                   key={idx}
                   src={image} 
                   alt={`${property.type} - Image ${idx + 1}`}
-                  className="flex-shrink-0 w-full h-full object-cover"
+                  className="flex-shrink-0 w-full h-full object-cover pointer-events-none"
                   onLoad={() => setImageLoading(false)}
+                  draggable={false}
                 />
               ))}
             </div>
@@ -289,29 +380,38 @@ const HousingCat = () => {
           
           {/* Loading skeleton */}
           {imageLoading && (
-            <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+            <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-xl" />
           )}
           
           {showCarousel && property.images.length > 1 && (
             <>
               <button
                 onClick={prevImage}
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-md transition-all duration-200 opacity-0 group-hover:opacity-100"
+                disabled={isAnimating}
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-md transition-all duration-200 opacity-0 group-hover:opacity-100 disabled:opacity-50 z-10"
               >
                 <ChevronLeft className="w-4 h-4 text-gray-700" />
               </button>
               <button
                 onClick={nextImage}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-md transition-all duration-200 opacity-0 group-hover:opacity-100"
+                disabled={isAnimating}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-md transition-all duration-200 opacity-0 group-hover:opacity-100 disabled:opacity-50 z-10"
               >
                 <ChevronRight className="w-4 h-4 text-gray-700" />
               </button>
               
-              <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2">
+              <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
                 {property.images.map((_, index) => (
                   <button
                     key={index}
-                    onClick={() => setCurrentImageIndex(index)}
+                    onClick={() => {
+                      if (!isAnimating) {
+                        setIsAnimating(true);
+                        setCurrentImageIndex(index);
+                        setTimeout(() => setIsAnimating(false), 300);
+                      }
+                    }}
+                    disabled={isAnimating}
                     className={`w-1 h-3 rounded-full transition-all duration-200 ${
                       index === currentImageIndex 
                         ? 'bg-primary scale-125' 
@@ -326,14 +426,19 @@ const HousingCat = () => {
         
         <div className="!relative p-3">
           <button
-            onClick={() => toggleLike(property.id)}
-            className="absolute top-5 right-3 p-3 rounded-full bg-tertiary hover:bg-tertiary transition-all duration-200"
+            onClick={(e) => toggleLike(property.id, e)}
+            className={`absolute top-5 right-3 p-3 rounded-full bg-tertiary hover:bg-tertiary transition-all duration-300 transform hover:scale-110 z-20 ${
+              likedProperties.has(property.id) ? 'animate-bounce' : ''
+            }`}
+            style={{
+              animation: likedProperties.has(property.id) ? 'heartBeat 0.6s ease-in-out' : 'none'
+            }}
           >
             <Heart 
-              className={`w-6 h-6 transition-colors duration-200 ${
+              className={`w-6 h-6 transition-all duration-300 transform ${
                 likedProperties.has(property.id) 
-                  ? 'fill-orange-500 text-orange-500' 
-                  : 'text-gray-600 hover:text-orange-400'
+                  ? 'fill-primary text-primary scale-110' 
+                  : 'text-gray-600 hover:text-primary hover:scale-105'
               }`}
             />
           </button>
@@ -369,10 +474,15 @@ const HousingCat = () => {
     if (categoryName === activeCategory || categoryName === 'Filter') return;
     
     setIsTransitioning(true);
+    
+    // Fade out current content
     setTimeout(() => {
       setActiveCategory(categoryName);
-      setTimeout(() => setIsTransitioning(false), 50);
-    }, 150);
+      // Fade in new content after a brief delay
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 100);
+    }, 300);
   };
 
   // Initialize and update displayed properties when activeCategory changes
@@ -386,7 +496,7 @@ const HousingCat = () => {
       <section className='max-w-screen-2xl mx-auto'>
         {/* Category Navigation */}
         <div className='flex items-center justify-center mb-12 relative'>
-          <div className='flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-8 relative bg-white/80 backdrop-blur-sm rounded-2xl p-2 mt-[2.5rem]'>
+          <div className='flex space-x-8 relative bg-white/80 backdrop-blur-sm rounded-2xl p-2 mt-[2.5rem]'>
             {categories.map((category, index) => (
               <div
                 key={category.id}
@@ -431,12 +541,30 @@ const HousingCat = () => {
           </div>
           
           <div 
-            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-500 ${
-              isTransitioning ? 'opacity-0 transform translate-y-8' : 'opacity-100 transform translate-y-0'
+            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-700 ease-out ${
+              isTransitioning 
+                ? 'opacity-0 transform translate-y-12 scale-95' 
+                : 'opacity-100 transform translate-y-0 scale-100'
             }`}
+            style={{
+              transition: 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}
           >
-            {(isTransitioning ? [] : displayedProperties.slice(0, 3)).map((property, index) => (
-              <PropertyCard key={property.id} property={property} index={index} />
+            {displayedProperties.slice(0, 3).map((property, index) => (
+              <div
+                key={property.id}
+                className={`transition-all duration-500 ease-out ${
+                  isTransitioning 
+                    ? 'opacity-0 transform translate-y-8' 
+                    : 'opacity-100 transform translate-y-0'
+                }`}
+                style={{
+                  transitionDelay: isTransitioning ? '0ms' : `${index * 100}ms`,
+                  transition: 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+                }}
+              >
+                <PropertyCard property={property} index={index} />
+              </div>
             ))}
           </div>
         </div>
@@ -487,9 +615,17 @@ const HousingCat = () => {
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
+        
+        @keyframes heartBeat {
+          0% { transform: scale(1); }
+          25% { transform: scale(1.2); }
+          50% { transform: scale(1.1); }
+          75% { transform: scale(1.25); }
+          100% { transform: scale(1); }
+        }
       `}</style>
     </>
   );
 };
 
-export default HousingCat;
+export default CarCat;
