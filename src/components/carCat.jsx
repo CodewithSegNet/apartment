@@ -456,7 +456,7 @@ const CarCat = () => {
               <span className="text-ms font-bold text-gray-900">
                 ₦{property.amount.toLocaleString()}
               </span>
-              <span className="text-gray-500 text-xs ml-1">Per Night</span>
+              <span className="text-gray-500 text-xs ml-1">Per Day</span>
             </div>
            
             <div className="flex w-fit text-xs mt-1 items-center bg-tertiary px-3 py-1 rounded-full border border-tertiary">
