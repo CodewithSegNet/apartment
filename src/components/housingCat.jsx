@@ -557,41 +557,43 @@ const HousingCat = () => {
     <>
       <section className='max-w-screen-2xl mx-auto'>
         {/* Category Navigation */}
-        <div className='flex items-center justify-center mb-12 relative'>
-          <div className='flex flex-col md:flex-row space-y-5 justify-center md:space-y-0 md:space-x-8 relative bg-white/80 backdrop-blur-sm rounded-2xl p-2 mt-[2.5rem]'>
-            {categories.map((category, index) => (
-              <div
-                key={category.id}
-                className={`${
-                  category.name === 'Filter' 
-                    ? 'flex items-center p-3 gap-2 bg-tertiary justify-center cursor-pointer transition-all duration-300 rounded-full group relative' 
-                    : 'flex flex-col items-center cursor-pointer transition-all justify-center duration-300 pb-[5x] px-1 rounded-full group relative'
-                } ${
-                  activeCategory === category.name 
-                    ? '' 
-                    : ''
-                }`}
-                onClick={() => handleCategoryChange(category.name)} 
-              >
-                <div className="transition-transform duration-200 group-hover:scale-110">
-                  <img 
-                    src={category.icon} 
-                    alt={category.name} 
-                    className="w-6 h-6" 
-                  />
-                </div>
-                <p className="text-xs font-normal mt-1">
-                  {category.name}
-                </p>
-                
-                {/* Active indicator */}
-                {activeCategory === category.name && (
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-[72px] h-[2px] bg-primary rounded-full"></div>
-                )}
-              </div>
-            ))}
+<div className='flex items-center justify-center mb-12 relative'>
+  <div className='w-full overflow-x-auto scrollbar-hide'>
+    <div className='flex justify-center md:space-y-0 md:space-x-8 space-x-4 relative bg-white/80 backdrop-blur-sm rounded-2xl p-2 mt-[2.5rem] min-w-max mx-auto'>
+      {categories.map((category, index) => (
+        <div
+          key={category.id}
+          className={`${
+            category.name === 'Filter' 
+              ? 'flex items-center p-3 gap-2 bg-tertiary justify-center cursor-pointer transition-all duration-300 rounded-full group relative flex-shrink-0' 
+              : 'flex flex-col items-center cursor-pointer transition-all justify-center duration-300 pb-[5x] px-1 rounded-full group relative flex-shrink-0'
+          } ${
+            activeCategory === category.name 
+              ? '' 
+              : ''
+          }`}
+          onClick={() => handleCategoryChange(category.name)} 
+        >
+          <div className="transition-transform duration-200 group-hover:scale-110">
+            <img 
+              src={category.icon} 
+              alt={category.name} 
+              className="w-6 h-6" 
+            />
           </div>
+          <p className="text-xs font-normal mt-1 whitespace-nowrap">
+            {category.name}
+          </p>
+          
+          {/* Active indicator */}
+          {activeCategory === category.name && (
+            <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-[72px] h-[2px] bg-primary rounded-full"></div>
+          )}
         </div>
+      ))}
+    </div>
+  </div>
+</div>
 
         {/* Top Picks Section */}
         <div className="mb-16">
