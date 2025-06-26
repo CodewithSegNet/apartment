@@ -1,4 +1,4 @@
-import Logo from "../assets/logo.svg";
+import Logo from "../assets/logo.png";
 import burger from "../assets/burger.svg";
 import profile from "../assets/profile.svg";
 import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
