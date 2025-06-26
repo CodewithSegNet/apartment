@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Search, MapPin, Calendar, Users } from 'lucide-react';
-import homeImg from "../assets/home.webp"
+import homeImg from "../assets/homepage.webp"
 import { div } from 'framer-motion/client';
 
 const HomeBookings = () => {
