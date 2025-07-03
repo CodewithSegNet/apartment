@@ -23,10 +23,12 @@ import house12 from "../assets/house8.webp"
 import house13 from "../assets/house10.webp"
 import house14 from "../assets/house11.webp"
 import house15 from "../assets/house12.webp"
+import { useProperty } from '../context/PropertyContext';
 
 const HousingCat = () => {
+  const { allProperties, exploreProperties, toggleLike, isPropertyLiked } = useProperty();
+  
   const [activeCategory, setActiveCategory] = useState('New Apartments');
-  const [likedProperties, setLikedProperties] = useState(new Set());
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [displayedProperties, setDisplayedProperties] = useState([]);
   const [showMoreExplore, setShowMoreExplore] = useState(false);
@@ -39,280 +41,48 @@ const HousingCat = () => {
     { id: 'filter', name: 'Filter', icon: filter }
   ];
 
-  // Mock data for properties
-  const mockProperties = {
-    'New Apartments': [
-      {
-        id: 1,
-        images: [house1, house2, house3, house4, house5],
-        type: '2 Bedroom Apartment',
-        location: 'Gwarinpa, Abuja',
-        posted: 'Posted 1 month ago',
-        amount: 45000,
-        rating: 4.8
-      },
-      {
-        id: 2,
-        images: [house7, house2, house3, house4, house5],
-        type: '3 Bedroom Apartment',
-        location: 'Maitama, Abuja',
-        posted: 'Posted 3 weeks ago',
-        amount: 65000,
-        rating: 4.6
-      },
-      {
-        id: 3,
-        images: [house6, house2, house3, house4, house5],
-        type: '1 Bedroom Apartment',
-        location: 'Wuse 2, Abuja',
-        posted: 'Posted 2 weeks ago',
-        amount: 35000,
-        rating: 4.5
-      }
-    ],
-    'Studio Apartments': [
-      {
-        id: 4,
-        images: [house7, house2, house3, house4, house5],
-        type: 'Modern Studio',
-        location: 'Garki, Abuja',
-        posted: 'Posted 1 week ago',
-        amount: 25000,
-        rating: 4.3
-      },
-      {
-        id: 5,
-        images: [house2, house2, house3, house4, house5],
-        type: 'Luxury Studio',
-        location: 'Asokoro, Abuja',
-        posted: 'Posted 2 months ago',
-        amount: 40000,
-        rating: 4.7
-      },
-      {
-        id: 6,
-        images: [house8, house2, house3, house4, house5],
-        type: 'Cozy Studio',
-        location: 'Kubwa, Abuja',
-        posted: 'Posted 1 month ago',
-        amount: 20000,
-        rating: 4.2
-      }
-    ],
-    'Duplex': [
-      {
-        id: 7,
-        images: [house9, house2, house3, house4, house5],
-        type: '4 Bedroom Duplex',
-        location: 'Gwarinpa, Abuja',
-        posted: 'Posted 2 months ago',
-        amount: 85000,
-        rating: 4.9
-      },
-      {
-        id: 8,
-        images: [house3, house2, house3, house4, house5],
-        type: '5 Bedroom Duplex',
-        location: 'Maitama, Abuja',
-        posted: 'Posted 1 month ago',
-        amount: 120000,
-        rating: 4.8
-      },
-      {
-        id: 9,
-        images: [house10, house2, house3, house4, house5],
-        type: '3 Bedroom Duplex',
-        location: 'Jahi, Abuja',
-        posted: 'Posted 3 weeks ago',
-        amount: 70000,
-        rating: 4.6
-      }
-    ],
-    'Bungalow': [
-      {
-        id: 10,
-        images: [house11, house2, house3, house4, house5],
-        type: '3 Bedroom Bungalow',
-        location: 'Lugbe, Abuja',
-        posted: 'Posted 1 month ago',
-        amount: 50000,
-        rating: 4.4
-      },
-      {
-        id: 11,
-        images: [house15, house2, house3, house4, house5],
-        type: '2 Bedroom Bungalow',
-        location: 'Kuje, Abuja',
-        posted: 'Posted 2 weeks ago',
-        amount: 35000,
-        rating: 4.1
-      },
-      {
-        id: 12,
-        images: [house12, house2, house3, house4, house5],
-        type: '4 Bedroom Bungalow',
-        location: 'Gwagwalada, Abuja',
-        posted: 'Posted 3 months ago',
-        amount: 60000,
-        rating: 4.3
-      }
-    ],
-    'Hotel': [
-      {
-        id: 13,
-        images: [house5, house2, house3, house4, house5],
-        type: 'Luxury Hotel Room',
-        location: 'Central Area, Abuja',
-        posted: 'Posted 1 week ago',
-        amount: 15000,
-        rating: 4.7
-      },
-      {
-        id: 14,
-        images: [house14, house2, house3, house4, house5],
-        type: 'Business Hotel Suite',
-        location: 'Garki, Abuja',
-        posted: 'Posted 2 days ago',
-        amount: 25000,
-        rating: 4.5
-      },
-      {
-        id: 15,
-        images: [house13, house2, house3, house4, house5],
-        type: 'Budget Hotel Room',
-        location: 'Wuse, Abuja',
-        posted: 'Posted 1 week ago',
-        amount: 8000,
-        rating: 4.0
-      }
-    ]
+  // Create image arrays for properties that don't have them
+  const imageArrays = {
+    1: [house1, house2, house3, house4, house5],
+    2: [house7, house2, house3, house4, house5],
+    3: [house6, house2, house3, house4, house5],
+    4: [house7, house2, house3, house4, house5],
+    5: [house2, house2, house3, house4, house5],
+    6: [house8, house2, house3, house4, house5],
+    7: [house9, house2, house3, house4, house5],
+    8: [house3, house2, house3, house4, house5],
+    9: [house10, house2, house3, house4, house5],
+    10: [house11, house2, house3, house4, house5],
+    11: [house15, house2, house3, house4, house5],
+    12: [house12, house2, house3, house4, house5],
+    13: [house5, house2, house3, house4, house5],
+    14: [house14, house2, house3, house4, house5],
+    15: [house13, house2, house3, house4, house5],
+    16: [house5, house2, house3, house4, house5],
+    17: [house15, house2, house3, house4, house5],
+    18: [house13, house2, house3, house4, house5],
+    19: [house12, house2, house3, house4, house5],
+    20: [house11, house2, house3, house4, house5],
+    21: [house10, house2, house3, house4, house5],
+    22: [house9, house2, house3, house4, house5],
+    23: [house8, house2, house3, house4, house5],
+    24: [house7, house2, house3, house4, house5],
+    25: [house6, house2, house3, house4, house5],
+    26: [house4, house2, house3, house4, house5],
+    27: [house2, house2, house3, house4, house5]
   };
 
-  const exploreProperties = [
-    {
-      id: 16,
-        images: [house5, house2, house3, house4, house5],
-      type: '4 Bedroom Duplex',
-      location: 'Gwarinpa, Abuja',
-      posted: 'Posted 2 months ago',
-      amount: 55000,
-      rating: 6.0
-    },
-    {
-      id: 17,
-        images: [house15, house2, house3, house4, house5],
-      type: '2 Bedroom Apartment',
-      location: 'Maitama, Abuja',
-      posted: 'Posted 1 month ago',
-      amount: 75000,
-      rating: 5.8
-    },
-    {
-      id: 18,
-        images: [house13, house2, house3, house4, house5],
-      type: '3 Bedroom Bungalow',
-      location: 'Asokoro, Abuja',
-      posted: 'Posted 3 weeks ago',
-      amount: 90000,
-      rating: 5.9
-    },
-    {
-      id: 19,
-        images: [house12, house2, house3, house4, house5],
-      type: 'Luxury Studio',
-      location: 'Wuse 2, Abuja',
-      posted: 'Posted 1 week ago',
-      amount: 45000,
-      rating: 5.7
-    },
-    {
-      id: 20,
-        images: [house11, house2, house3, house4, house5],
-      type: '5 Bedroom Duplex',
-      location: 'Jahi, Abuja',
-      posted: 'Posted 2 weeks ago',
-      amount: 110000,
-      rating: 6.0
-    },
-    {
-      id: 21,
-        images: [house10, house2, house3, house4, house5],
-      type: '3 Bedroom Apartment',
-      location: 'Garki, Abuja',
-      posted: 'Posted 1 month ago',
-      amount: 52000,
-      rating: 4.8
-    },
-    {
-      id: 22,
-        images: [house9, house2, house3, house4, house5],
-      type: '2 Bedroom Duplex',
-      location: 'Kubwa, Abuja',
-      posted: 'Posted 3 weeks ago',
-      amount: 38000,
-      rating: 4.5
-    },
-    {
-      id: 23,
-        images: [house8, house2, house3, house4, house5],
-      type: 'Executive Studio',
-      location: 'Central Area, Abuja',
-      posted: 'Posted 1 week ago',
-      amount: 35000,
-      rating: 4.6
-    },
-    {
-      id: 24,
-        images: [house7, house2, house3, house4, house5],
-      type: '4 Bedroom Bungalow',
-      location: 'Lugbe, Abuja',
-      posted: 'Posted 2 weeks ago',
-      amount: 65000,
-      rating: 4.7
-    },
-    {
-      id: 25,
-        images: [house6, house2, house3, house4, house5],
-      type: '1 Bedroom Apartment',
-      location: 'Wuse, Abuja',
-      posted: 'Posted 1 month ago',
-      amount: 28000,
-      rating: 4.3
-    },
-    {
-      id: 26,
-        images: [house4, house2, house3, house4, house5],
-      type: '3 Bedroom Duplex',
-      location: 'Maitama, Abuja',
-      posted: 'Posted 2 months ago',
-      amount: 85000,
-      rating: 4.9
-    },
-    {
-      id: 27,
-        images: [house2, house2, house3, house4, house5],
-      type: 'Penthouse Suite',
-      location: 'Asokoro, Abuja',
-      posted: 'Posted 1 week ago',
-      amount: 150000,
-      rating: 5.0
-    },
-  ];
-
-  const toggleLike = useCallback((propertyId, e) => {
+  const handleToggleLike = useCallback((propertyId, e) => {
     e.stopPropagation();
     e.preventDefault();
-    
-    setLikedProperties(prev => {
-      const newLiked = new Set(prev);
-      if (newLiked.has(propertyId)) {
-        newLiked.delete(propertyId);
-      } else {
-        newLiked.add(propertyId);
-      }
-      return newLiked;
-    });
-  }, []);
+    toggleLike(propertyId);
+  }, [toggleLike]);
+
+  const handleTouchStart = (e) => {
+    if (e.target.closest('.property-images') && e.target.closest('.property-images').children.length <= 1) return;
+    e.target.closest('.image-container')?.setAttribute('data-drag-start', e.touches[0].clientX);
+    e.target.closest('.image-container')?.setAttribute('data-dragging', 'true');
+  };
 
   const PropertyCard = ({ property, showCarousel = true, index = 0 }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -322,40 +92,46 @@ const HousingCat = () => {
     const [dragOffset, setDragOffset] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
 
-    const nextImage = useCallback(() => {
+    // Use context to check if property is liked
+    const isLiked = isPropertyLiked(property.id);
+    
+    // Get images for this property
+    const propertyImages = imageArrays[property.id] || [house1, house2, house3, house4, house5];
+
+    const nextImage = useCallback((e) => {
+      e?.preventDefault();
+      e?.stopPropagation();
       if (isAnimating) return;
       setIsAnimating(true);
       setCurrentImageIndex((prev) => 
-        prev === property.images.length - 1 ? 0 : prev + 1
+        prev === propertyImages.length - 1 ? 0 : prev + 1
       );
       setTimeout(() => setIsAnimating(false), 300);
-    }, [property.images.length, isAnimating]);
+    }, [propertyImages.length, isAnimating]);
 
-    const prevImage = useCallback(() => {
+    const prevImage = useCallback((e) => {
+      e?.preventDefault();
+      e?.stopPropagation();
       if (isAnimating) return;
       setIsAnimating(true);
       setCurrentImageIndex((prev) => 
-        prev === 0 ? property.images.length - 1 : prev - 1
+        prev === 0 ? propertyImages.length - 1 : prev - 1
       );
       setTimeout(() => setIsAnimating(false), 300);
-    }, [property.images.length, isAnimating]);
-
-    const handleTouchStart = (e) => {
-      if (property.images.length <= 1) return;
-      setIsDragging(true);
-      setDragStart(e.touches[0].clientX);
-      setDragOffset(0);
-    };
+    }, [propertyImages.length, isAnimating]);
 
     const handleTouchMove = (e) => {
-      if (!isDragging || property.images.length <= 1) return;
+      if (!isDragging || propertyImages.length <= 1) return;
+      e.preventDefault();
       const currentX = e.touches[0].clientX;
       const diff = currentX - dragStart;
       setDragOffset(diff);
     };
 
-    const handleTouchEnd = () => {
-      if (!isDragging || property.images.length <= 1) return;
+    const handleTouchEnd = (e) => {
+      if (!isDragging || propertyImages.length <= 1) return;
+      e.preventDefault();
+      e.stopPropagation();
       setIsDragging(false);
       
       const threshold = 50;
@@ -370,21 +146,25 @@ const HousingCat = () => {
     };
 
     const handleMouseDown = (e) => {
-      if (property.images.length <= 1) return;
+      if (propertyImages.length <= 1) return;
+      e.preventDefault();
       setIsDragging(true);
       setDragStart(e.clientX);
       setDragOffset(0);
     };
 
     const handleMouseMove = (e) => {
-      if (!isDragging || property.images.length <= 1) return;
+      if (!isDragging || propertyImages.length <= 1) return;
+      e.preventDefault();
       const currentX = e.clientX;
       const diff = currentX - dragStart;
       setDragOffset(diff);
     };
 
-    const handleMouseUp = () => {
-      if (!isDragging || property.images.length <= 1) return;
+    const handleMouseUp = (e) => {
+      if (!isDragging || propertyImages.length <= 1) return;
+      e.preventDefault();
+      e.stopPropagation();
       setIsDragging(false);
       
       const threshold = 50;
@@ -404,107 +184,118 @@ const HousingCat = () => {
       }
     };
 
+    const handleIndicatorClick = (index, e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!isAnimating) {
+        setIsAnimating(true);
+        setCurrentImageIndex(index);
+        setTimeout(() => setIsAnimating(false), 300);
+      }
+    };
+
     return (
       <div className="bg-white overflow-hidden transition-shadow duration-300 group">
-        <div className="relative overflow-hidden">
-          <div 
-            className="relative w-full h-[350px] rounded-xl overflow-hidden cursor-grab select-none"
-            style={{
-              cursor: isDragging ? 'grabbing' : 'grab'
-            }}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseLeave}
-          >
+        <Link to={`/property/${property.id}`} className="block">
+          <div className="relative overflow-hidden">
             <div 
-              className="flex w-full h-full transition-transform duration-300 ease-out"
+              className="relative w-full h-[350px] rounded-xl overflow-hidden cursor-grab select-none image-container"
               style={{
-                transform: `translateX(calc(-${currentImageIndex * 100}% + ${isDragging ? dragOffset : 0}px))`,
-                transition: isDragging ? 'none' : 'transform 0.3s ease-out'
+                cursor: isDragging ? 'grabbing' : 'grab'
               }}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
             >
-              {property.images.map((image, idx) => (
-                <img 
-                  key={idx}
-                  src={image} 
-                  alt={`${property.type} - Image ${idx + 1}`}
-                  className="flex-shrink-0 w-full h-full object-cover pointer-events-none"
-                  onLoad={() => setImageLoading(false)}
-                  draggable={false}
-                />
-              ))}
-            </div>
-          </div>
-          
-          {/* Loading skeleton */}
-          {imageLoading && (
-            <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-xl" />
-          )}
-          
-          {showCarousel && property.images.length > 1 && (
-            <>
-              <button
-                onClick={prevImage}
-                disabled={isAnimating}
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-md transition-all duration-200 opacity-0 group-hover:opacity-100 disabled:opacity-50 z-10"
+              <div 
+                className="flex w-full h-full transition-transform duration-300 ease-out property-images"
+                style={{
+                  transform: `translateX(calc(-${currentImageIndex * 100}% + ${isDragging ? dragOffset : 0}px))`,
+                  transition: isDragging ? 'none' : 'transform 0.3s ease-out'
+                }}
               >
-                <ChevronLeft className="w-4 h-4 text-gray-700" />
-              </button>
-              <button
-                onClick={nextImage}
-                disabled={isAnimating}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-md transition-all duration-200 opacity-0 group-hover:opacity-100 disabled:opacity-50 z-10"
-              >
-                <ChevronRight className="w-4 h-4 text-gray-700" />
-              </button>
-              
-              <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
-                {property.images.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => {
-                      if (!isAnimating) {
-                        setIsAnimating(true);
-                        setCurrentImageIndex(index);
-                        setTimeout(() => setIsAnimating(false), 300);
-                      }
-                    }}
-                    disabled={isAnimating}
-                    className={`w-1 h-3 rounded-full transition-all duration-200 ${
-                      index === currentImageIndex 
-                        ? 'bg-primary scale-125' 
-                        : 'bg-white/50 hover:bg-primary'
-                    }`}
+                {property.isNew && (
+                  <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full text-xs font-semibold shadow-md z-20">
+                    ★ New
+                  </div>
+                )}
+                {propertyImages.map((image, idx) => (
+                  <img 
+                    key={idx}
+                    src={image} 
+                    alt={`${property.type} - Image ${idx + 1}`}
+                    className="flex-shrink-0 w-full h-full object-cover pointer-events-none"
+                    onLoad={() => setImageLoading(false)}
+                    draggable={false}
                   />
                 ))}
               </div>
-            </>
-          )}
-        </div>
-        
-        <div className="!relative p-3">
+            </div>
+            
+            {/* Loading skeleton */}
+            {imageLoading && (
+              <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-xl" />
+            )}
+            
+            {showCarousel && propertyImages.length > 1 && (
+              <>
+                <button
+                  onClick={prevImage}
+                  disabled={isAnimating}
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-md transition-all duration-200 opacity-0 group-hover:opacity-100 disabled:opacity-50 z-10"
+                >
+                  <ChevronLeft className="w-4 h-4 text-gray-700" />
+                </button>
+                <button
+                  onClick={nextImage}
+                  disabled={isAnimating}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-md transition-all duration-200 opacity-0 group-hover:opacity-100 disabled:opacity-50 z-10"
+                >
+                  <ChevronRight className="w-4 h-4 text-gray-700" />
+                </button>
+                
+                <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+                  {propertyImages.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={(e) => handleIndicatorClick(index, e)}
+                      disabled={isAnimating}
+                      className={`w-1 h-3 rounded-full transition-all duration-200 ${
+                        index === currentImageIndex 
+                          ? 'bg-primary scale-125' 
+                          : 'bg-white/50 hover:bg-primary'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </Link>
+
+ <div className="!relative p-3">
           <button
-            onClick={(e) => toggleLike(property.id, e)}
+            onClick={(e) => handleToggleLike(property.id, e)}
             className={`absolute top-5 right-3 p-3 rounded-full bg-tertiary hover:bg-tertiary transition-all duration-300 transform hover:scale-110 z-20 ${
-              likedProperties.has(property.id) ? 'animate-bounce' : ''
+              isLiked ? 'animate-bounce' : ''
             }`}
             style={{
-              animation: likedProperties.has(property.id) ? 'heartBeat 0.6s ease-in-out' : 'none'
+              animation: isLiked ? 'heartBeat 0.6s ease-in-out' : 'none'
             }}
           >
             <Heart 
               className={`w-6 h-6 transition-all duration-300 transform ${
-                likedProperties.has(property.id) 
+                isLiked
                   ? 'fill-primary text-primary scale-110' 
                   : 'text-gray-600 hover:text-primary hover:scale-105'
               }`}
             />
           </button>
-          <h3 className="font-bold text-sm mb-2 text-gray-800">
+        <h3 className="font-bold text-sm mb-2 text-gray-800">
             {property.type}
           </h3>
           <p className="text-gray-600 text-xs font-medium mb-1 flex items-center">
@@ -549,9 +340,9 @@ const HousingCat = () => {
 
   // Initialize and update displayed properties when activeCategory changes
   useEffect(() => {
-    const currentProperties = mockProperties[activeCategory] || [];
+    const currentProperties = allProperties[activeCategory] || [];
     setDisplayedProperties(currentProperties);
-  }, [activeCategory]);
+  }, [activeCategory, allProperties]);
 
   return (
     <>

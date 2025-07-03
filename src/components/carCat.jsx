@@ -20,10 +20,12 @@ import car10 from "../assets/car6.webp"
 import car11 from "../assets/car7.webp"
 import car12 from "../assets/car8.webp"
 import car13 from "../assets/car10.webp"
+import { useCar } from '../context/CarContext'; // Assuming you'll create this context
 
 const CarCat = () => {
+  const { allCars, exploreCars, toggleLike, isCarLiked } = useCar();
+
   const [activeCategory, setActiveCategory] = useState('Suv');
-  const [likedProperties, setLikedProperties] = useState(new Set());
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [displayedProperties, setDisplayedProperties] = useState([]);
   const [showMoreExplore, setShowMoreExplore] = useState(false);
@@ -35,222 +37,42 @@ const CarCat = () => {
     { id: 'filter', name: 'Filter', icon: filter }
   ];
 
-  // Mock data for properties
-  const mockProperties = {
-    'Suv': [
-      {
-        id: 1,
-        images: [car1, car2, car3, car4, car5],
-        type: '2014 Toyota Corolla',
-        location: 'Gwarinpa, Abuja',
-        posted: 'Posted 1 month ago',
-        amount: 45000,
-        rating: 4.8
-      },
-      {
-        id: 2,
-        images: [car7, car2, car3, car4, car5],
-        type: '2016 Toyota Prado',
-        location: 'Maitama, Abuja',
-        posted: 'Posted 3 weeks ago',
-        amount: 65000,
-        rating: 4.6
-      },
-      {
-        id: 3,
-        images: [car6, car2, car3, car4, car5],
-        type: '2017 Toyota Land Cruiser',
-        location: 'Wuse 2, Abuja',
-        posted: 'Posted 2 weeks ago',
-        amount: 35000,
-        rating: 4.5
-      }
-    ],
-    'Sedan': [
-      {
-        id: 4,
-        images: [car7, car2, car3, car4, car5],
-        type: '2009 Honda Accord',
-        location: 'Garki, Abuja',
-        posted: 'Posted 1 week ago',
-        amount: 25000,
-        rating: 4.3
-      },
-      {
-        id: 5,
-        images: [car2, car2, car3, car4, car5],
-        type: '2010 Honda Pilot',
-        location: 'Asokoro, Abuja',
-        posted: 'Posted 2 months ago',
-        amount: 40000,
-        rating: 4.7
-      },
-      {
-        id: 6,
-        images: [car8, car2, car3, car4, car5],
-        type: '2009 Toyota Camry',
-        location: 'Kubwa, Abuja',
-        posted: 'Posted 1 month ago',
-        amount: 20000,
-        rating: 4.2
-      }
-    ],
-    'Van': [
-      {
-        id: 7,
-        images: [car9, car2, car3, car4, car5],
-        type: '4 Bedroom Duplex',
-        location: 'Gwarinpa, Abuja',
-        posted: 'Posted 2 months ago',
-        amount: 85000,
-        rating: 4.9
-      },
-      {
-        id: 8,
-        images: [car3, car2, car3, car4, car5],
-        type: '5 Bedroom Duplex',
-        location: 'Maitama, Abuja',
-        posted: 'Posted 1 month ago',
-        amount: 120000,
-        rating: 4.8
-      },
-      {
-        id: 9,
-        images: [car10, car2, car3, car4, car5],
-        type: '2018 Toyota Camry',
-        location: 'Jahi, Abuja',
-        posted: 'Posted 3 weeks ago',
-        amount: 70000,
-        rating: 4.6
-      }
-    ],
+  // Create image arrays for cars that don't have them
+  const imageArrays = {
+    1: [car1, car2, car3, car4, car5],
+    2: [car7, car2, car3, car4, car5],
+    3: [car6, car2, car3, car4, car5],
+    4: [car7, car2, car3, car4, car5],
+    5: [car2, car2, car3, car4, car5],
+    6: [car8, car2, car3, car4, car5],
+    7: [car9, car2, car3, car4, car5],
+    8: [car3, car2, car3, car4, car5],
+    9: [car10, car2, car3, car4, car5],
+    10: [car11, car2, car3, car4, car5],
+    11: [car12, car2, car3, car4, car5],
+    12: [car13, car2, car3, car4, car5],
+    13: [car5, car2, car3, car4, car5],
+    14: [car8, car2, car3, car4, car5],
+    15: [car9, car2, car3, car4, car5],
+    16: [car5, car2, car3, car4, car5],
+    17: [car2, car3, car4, car5],
+    18: [car13, car2, car3, car4, car5],
+    19: [car12, car2, car3, car4, car5],
+    20: [car11, car2, car3, car4, car5],
+    21: [car10, car2, car3, car4, car5],
+    22: [car9, car2, car3, car4, car5],
+    23: [car8, car2, car3, car4, car5],
+    24: [car7, car2, car3, car4, car5],
+    25: [car6, car2, car3, car4, car5],
+    26: [car4, car2, car3, car4, car5],
+    27: [car2, car2, car3, car4, car5]
   };
 
-  const exploreProperties = [
-    {
-      id: 16,
-      images: [car5, car2, car3, car4, car5],
-      type: ' 2009 Toyota Camry',
-      location: 'Gwarinpa, Abuja',
-      posted: 'Posted 2 months ago',
-      amount: 55000,
-      rating: 6.0
-    },
-    {
-      id: 17,
-      images: [car2, car3, car4, car5],
-      type: '2009 Toyota Camry',
-      location: 'Maitama, Abuja',
-      posted: 'Posted 1 month ago',
-      amount: 75000,
-      rating: 5.8
-    },
-    {
-      id: 18,
-      images: [car13, car2, car3, car4, car5],
-      type: '2009 Toyota Camry',
-      location: 'Asokoro, Abuja',
-      posted: 'Posted 3 weeks ago',
-      amount: 90000,
-      rating: 5.9
-    },
-    {
-      id: 19,
-      images: [car12, car2, car3, car4, car5],
-      type: '2009 Toyota Camry',
-      location: 'Wuse 2, Abuja',
-      posted: 'Posted 1 week ago',
-      amount: 45000,
-      rating: 5.7
-    },
-    {
-      id: 20,
-      images: [car11, car2, car3, car4, car5],
-      type: '2009 Toyota Camry',
-      location: 'Jahi, Abuja',
-      posted: 'Posted 2 weeks ago',
-      amount: 110000,
-      rating: 6.0
-    },
-    {
-      id: 21,
-      images: [car10, car2, car3, car4, car5],
-      type: '2009 Toyota Camry',
-      location: 'Garki, Abuja',
-      posted: 'Posted 1 month ago',
-      amount: 52000,
-      rating: 4.8
-    },
-    {
-      id: 22,
-      images: [car9, car2, car3, car4, car5],
-      type: '2009 Toyota Camry',
-      location: 'Kubwa, Abuja',
-      posted: 'Posted 3 weeks ago',
-      amount: 38000,
-      rating: 4.5
-    },
-    {
-      id: 23,
-      images: [car8, car2, car3, car4, car5],
-      type: '2009 Toyota Camry',
-      location: 'Central Area, Abuja',
-      posted: 'Posted 1 week ago',
-      amount: 35000,
-      rating: 4.6
-    },
-    {
-      id: 24,
-      images: [car7, car2, car3, car4, car5],
-      type: '2009 Toyota Camry',
-      location: 'Lugbe, Abuja',
-      posted: 'Posted 2 weeks ago',
-      amount: 65000,
-      rating: 4.7
-    },
-    {
-      id: 25,
-      images: [car6, car2, car3, car4, car5],
-      type: '2009 Toyota Camry',
-      location: 'Wuse, Abuja',
-      posted: 'Posted 1 month ago',
-      amount: 28000,
-      rating: 4.3
-    },
-    {
-      id: 26,
-      images: [car4, car2, car3, car4, car5],
-      type: '2009 Toyota Camry',
-      location: 'Maitama, Abuja',
-      posted: 'Posted 2 months ago',
-      amount: 85000,
-      rating: 4.9
-    },
-    {
-      id: 27,
-      images: [car2, car2, car3, car4, car5],
-      type: '2009 Toyota Camry',
-      location: 'Asokoro, Abuja',
-      posted: 'Posted 1 week ago',
-      amount: 150000,
-      rating: 5.0
-    }
-  ];
-
-  const toggleLike = useCallback((propertyId, e) => {
+  const handleToggleLike = useCallback((carId, e) => {
     e.stopPropagation();
     e.preventDefault();
-    
-    setLikedProperties(prev => {
-      const newLiked = new Set(prev);
-      if (newLiked.has(propertyId)) {
-        newLiked.delete(propertyId);
-      } else {
-        newLiked.add(propertyId);
-      }
-      return newLiked;
-    });
-  }, []);
+    toggleLike(carId);
+  }, [toggleLike]);
 
   const PropertyCard = ({ property, showCarousel = true, index = 0 }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -260,40 +82,53 @@ const CarCat = () => {
     const [dragOffset, setDragOffset] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
 
-    const nextImage = useCallback(() => {
-      if (isAnimating) return;
-      setIsAnimating(true);
-      setCurrentImageIndex((prev) => 
-        prev === property.images.length - 1 ? 0 : prev + 1
-      );
-      setTimeout(() => setIsAnimating(false), 300);
-    }, [property.images.length, isAnimating]);
+    // Use context to check if car is liked
+    const isLiked = isCarLiked(property.id);
+    
+    // Get images for this car
+    const carImages = imageArrays[property.id] || [car1, car2, car3, car4, car5];
 
-    const prevImage = useCallback(() => {
+    const nextImage = useCallback((e) => {
+      e?.preventDefault();
+      e?.stopPropagation();
       if (isAnimating) return;
       setIsAnimating(true);
       setCurrentImageIndex((prev) => 
-        prev === 0 ? property.images.length - 1 : prev - 1
+        prev === carImages.length - 1 ? 0 : prev + 1
       );
       setTimeout(() => setIsAnimating(false), 300);
-    }, [property.images.length, isAnimating]);
+    }, [carImages.length, isAnimating]);
+
+    const prevImage = useCallback((e) => {
+      e?.preventDefault();
+      e?.stopPropagation();
+      if (isAnimating) return;
+      setIsAnimating(true);
+      setCurrentImageIndex((prev) => 
+        prev === 0 ? carImages.length - 1 : prev - 1
+      );
+      setTimeout(() => setIsAnimating(false), 300);
+    }, [carImages.length, isAnimating]);
 
     const handleTouchStart = (e) => {
-      if (property.images.length <= 1) return;
+      if (carImages.length <= 1) return;
       setIsDragging(true);
       setDragStart(e.touches[0].clientX);
       setDragOffset(0);
     };
 
     const handleTouchMove = (e) => {
-      if (!isDragging || property.images.length <= 1) return;
+      if (!isDragging || carImages.length <= 1) return;
+      e.preventDefault();
       const currentX = e.touches[0].clientX;
       const diff = currentX - dragStart;
       setDragOffset(diff);
     };
 
-    const handleTouchEnd = () => {
-      if (!isDragging || property.images.length <= 1) return;
+    const handleTouchEnd = (e) => {
+      if (!isDragging || carImages.length <= 1) return;
+      e.preventDefault();
+      e.stopPropagation();
       setIsDragging(false);
       
       const threshold = 50;
@@ -308,21 +143,25 @@ const CarCat = () => {
     };
 
     const handleMouseDown = (e) => {
-      if (property.images.length <= 1) return;
+      if (carImages.length <= 1) return;
+      e.preventDefault();
       setIsDragging(true);
       setDragStart(e.clientX);
       setDragOffset(0);
     };
 
     const handleMouseMove = (e) => {
-      if (!isDragging || property.images.length <= 1) return;
+      if (!isDragging || carImages.length <= 1) return;
+      e.preventDefault();
       const currentX = e.clientX;
       const diff = currentX - dragStart;
       setDragOffset(diff);
     };
 
-    const handleMouseUp = () => {
-      if (!isDragging || property.images.length <= 1) return;
+    const handleMouseUp = (e) => {
+      if (!isDragging || carImages.length <= 1) return;
+      e.preventDefault();
+      e.stopPropagation();
       setIsDragging(false);
       
       const threshold = 50;
@@ -342,101 +181,112 @@ const CarCat = () => {
       }
     };
 
+    const handleIndicatorClick = (index, e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!isAnimating) {
+        setIsAnimating(true);
+        setCurrentImageIndex(index);
+        setTimeout(() => setIsAnimating(false), 300);
+      }
+    };
+
     return (
       <div className="bg-white overflow-hidden transition-shadow duration-300 group">
-        <div className="relative overflow-hidden">
-          <div 
-            className="relative w-full h-[350px] rounded-xl overflow-hidden cursor-grab select-none"
-            style={{
-              cursor: isDragging ? 'grabbing' : 'grab'
-            }}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseLeave}
-          >
+        <Link to={`/car/${property.id}`} className="block">
+          <div className="relative overflow-hidden">
             <div 
-              className="flex w-full h-full transition-transform duration-300 ease-out"
+              className="relative w-full h-[350px] rounded-xl overflow-hidden cursor-grab select-none"
               style={{
-                transform: `translateX(calc(-${currentImageIndex * 100}% + ${isDragging ? dragOffset : 0}px))`,
-                transition: isDragging ? 'none' : 'transform 0.3s ease-out'
+                cursor: isDragging ? 'grabbing' : 'grab'
               }}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
             >
-              {property.images.map((image, idx) => (
-                <img 
-                  key={idx}
-                  src={image} 
-                  alt={`${property.type} - Image ${idx + 1}`}
-                  className="flex-shrink-0 w-full h-full object-cover pointer-events-none"
-                  onLoad={() => setImageLoading(false)}
-                  draggable={false}
-                />
-              ))}
-            </div>
-          </div>
-          
-          {/* Loading skeleton */}
-          {imageLoading && (
-            <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-xl" />
-          )}
-          
-          {showCarousel && property.images.length > 1 && (
-            <>
-              <button
-                onClick={prevImage}
-                disabled={isAnimating}
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-md transition-all duration-200 opacity-0 group-hover:opacity-100 disabled:opacity-50 z-10"
+              <div 
+                className="flex w-full h-full transition-transform duration-300 ease-out"
+                style={{
+                  transform: `translateX(calc(-${currentImageIndex * 100}% + ${isDragging ? dragOffset : 0}px))`,
+                  transition: isDragging ? 'none' : 'transform 0.3s ease-out'
+                }}
               >
-                <ChevronLeft className="w-4 h-4 text-gray-700" />
-              </button>
-              <button
-                onClick={nextImage}
-                disabled={isAnimating}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-md transition-all duration-200 opacity-0 group-hover:opacity-100 disabled:opacity-50 z-10"
-              >
-                <ChevronRight className="w-4 h-4 text-gray-700" />
-              </button>
-              
-              <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
-                {property.images.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => {
-                      if (!isAnimating) {
-                        setIsAnimating(true);
-                        setCurrentImageIndex(index);
-                        setTimeout(() => setIsAnimating(false), 300);
-                      }
-                    }}
-                    disabled={isAnimating}
-                    className={`w-1 h-3 rounded-full transition-all duration-200 ${
-                      index === currentImageIndex 
-                        ? 'bg-primary scale-125' 
-                        : 'bg-white/50 hover:bg-primary'
-                    }`}
+                {property.isNew && (
+                  <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full text-xs font-semibold shadow-md z-20">
+                    ★ New
+                  </div>
+                )}
+                {carImages.map((image, idx) => (
+                  <img 
+                    key={idx}
+                    src={image} 
+                    alt={`${property.type} - Image ${idx + 1}`}
+                    className="flex-shrink-0 w-full h-full object-cover pointer-events-none"
+                    onLoad={() => setImageLoading(false)}
+                    draggable={false}
                   />
                 ))}
               </div>
-            </>
-          )}
-        </div>
+            </div>
+            
+            {/* Loading skeleton */}
+            {imageLoading && (
+              <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-xl" />
+            )}
+            
+            {showCarousel && carImages.length > 1 && (
+              <>
+                <button
+                  onClick={prevImage}
+                  disabled={isAnimating}
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-md transition-all duration-200 opacity-0 group-hover:opacity-100 disabled:opacity-50 z-10"
+                >
+                  <ChevronLeft className="w-4 h-4 text-gray-700" />
+                </button>
+                <button
+                  onClick={nextImage}
+                  disabled={isAnimating}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-md transition-all duration-200 opacity-0 group-hover:opacity-100 disabled:opacity-50 z-10"
+                >
+                  <ChevronRight className="w-4 h-4 text-gray-700" />
+                </button>
+                
+                <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+                  {carImages.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={(e) => handleIndicatorClick(index, e)}
+                      disabled={isAnimating}
+                      className={`w-1 h-3 rounded-full transition-all duration-200 ${
+                        index === currentImageIndex 
+                          ? 'bg-primary scale-125' 
+                          : 'bg-white/50 hover:bg-primary'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </Link>
         
         <div className="!relative p-3">
           <button
-            onClick={(e) => toggleLike(property.id, e)}
+            onClick={(e) => handleToggleLike(property.id, e)}
             className={`absolute top-5 right-3 p-3 rounded-full bg-tertiary hover:bg-tertiary transition-all duration-300 transform hover:scale-110 z-20 ${
-              likedProperties.has(property.id) ? 'animate-bounce' : ''
+              isLiked ? 'animate-bounce' : ''
             }`}
             style={{
-              animation: likedProperties.has(property.id) ? 'heartBeat 0.6s ease-in-out' : 'none'
+              animation: isLiked ? 'heartBeat 0.6s ease-in-out' : 'none'
             }}
           >
             <Heart 
               className={`w-6 h-6 transition-all duration-300 transform ${
-                likedProperties.has(property.id) 
+                isLiked
                   ? 'fill-primary text-primary scale-110' 
                   : 'text-gray-600 hover:text-primary hover:scale-105'
               }`}
@@ -487,47 +337,49 @@ const CarCat = () => {
 
   // Initialize and update displayed properties when activeCategory changes
   useEffect(() => {
-    const currentProperties = mockProperties[activeCategory] || [];
+    const currentProperties = allCars[activeCategory] || [];
     setDisplayedProperties(currentProperties);
-  }, [activeCategory]);
+  }, [activeCategory, allCars]);
 
   return (
     <>
       <section className='max-w-screen-2xl mx-auto'>
         {/* Category Navigation */}
         <div className='flex items-center justify-center mb-12 relative'>
-          <div className='flex space-x-8 relative bg-white/80 backdrop-blur-sm rounded-2xl p-2 mt-[2.5rem]'>
-            {categories.map((category, index) => (
-              <div
-                key={category.id}
-                className={`${
-                  category.name === 'Filter' 
-                    ? 'flex items-center p-3 gap-2 bg-tertiary cursor-pointer transition-all duration-300 rounded-full group relative' 
-                    : 'flex flex-col items-center cursor-pointer transition-all duration-300 pb-[5x] px-1 rounded-full group relative'
-                } ${
-                  activeCategory === category.name 
-                    ? '' 
-                    : ''
-                }`}
-                onClick={() => handleCategoryChange(category.name)} 
-              >
-                <div className="transition-transform duration-200 group-hover:scale-110">
-                  <img 
-                    src={category.icon} 
-                    alt={category.name} 
-                    className="w-6 h-6" 
-                  />
+          <div className='w-full overflow-x-auto scrollbar-hide'>
+            <div className='flex justify-center md:space-y-0 md:space-x-8 space-x-4 relative bg-white/80 backdrop-blur-sm rounded-2xl p-2 mt-[2.5rem] min-w-max mx-auto'>
+              {categories.map((category, index) => (
+                <div
+                  key={category.id}
+                  className={`${
+                    category.name === 'Filter' 
+                      ? 'flex items-center p-3 gap-2 bg-tertiary justify-center cursor-pointer transition-all duration-300 rounded-full group relative flex-shrink-0' 
+                      : 'flex flex-col items-center cursor-pointer transition-all justify-center duration-300 pb-[5x] px-1 rounded-full group relative flex-shrink-0'
+                  } ${
+                    activeCategory === category.name 
+                      ? '' 
+                      : ''
+                  }`}
+                  onClick={() => handleCategoryChange(category.name)} 
+                >
+                  <div className="transition-transform duration-200 group-hover:scale-110">
+                    <img 
+                      src={category.icon} 
+                      alt={category.name} 
+                      className="w-6 h-6" 
+                    />
+                  </div>
+                  <p className="text-xs font-normal mt-1 whitespace-nowrap">
+                    {category.name}
+                  </p>
+                  
+                  {/* Active indicator */}
+                  {activeCategory === category.name && (
+                    <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-[72px] h-[2px] bg-primary rounded-full"></div>
+                  )}
                 </div>
-                <p className="text-xs font-normal mt-1">
-                  {category.name}
-                </p>
-                
-                {/* Active indicator */}
-                {activeCategory === category.name && (
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-[72px] h-[2px] bg-primary rounded-full"></div>
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
@@ -572,11 +424,11 @@ const CarCat = () => {
         {/* Explore Listings Section */}
         <div className="mb-8">
           <h2 className="text-[24px] text-left font-bold mb-1">Explore Listings</h2>
-          <p className="text-gray-600 text-xs mb-6">Explore top listings with premium amenities, great locations, and unmatched comfort.</p>
+          <p className="text-gray-600 text-xs mb-6">Explore top listings with premium features, great deals, and unmatched performance.</p>
           
           {/* Desktop: 4 columns, 3 rows (12 cards) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-            {exploreProperties.slice(0, 12).map((property) => (
+            {exploreCars.slice(0, 12).map((property) => (
               <PropertyCard key={property.id} property={property} />
             ))}
           </div>
@@ -584,7 +436,7 @@ const CarCat = () => {
           {/* Additional cards shown when "More" is clicked */}
           {showMoreExplore && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 transition-all duration-500 ease-in-out">
-              {exploreProperties.slice(12).map((property) => (
+              {exploreCars.slice(12).map((property) => (
                 <PropertyCard key={property.id} property={property} />
               ))}
             </div>
