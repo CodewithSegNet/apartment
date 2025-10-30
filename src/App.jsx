@@ -6,7 +6,9 @@ import CarRentals from "./pages/carRentals"
 import PropertyDetail from './components/PropertyDetail'; 
 import { PropertyProvider } from './context/PropertyContext';
 import { CarProvider } from './context/CarContext';
-
+import Dashboard from './components/Dashboard';
+import PersonalDetail from './components/PersonalDetails';
+import PasswordSecurity from './components/PasswordSecurity';
 
 
 function App() {
@@ -20,6 +22,10 @@ function App() {
           <Route path="/car-rentals" element={<CarRentals />} />
           <Route path="/property/:id" element={<PropertyDetail />} />
           <Route path="/car/:id" element={<PropertyDetail />} />
+          <Route path="/dashboard/" element={<Dashboard />} />
+          <Route path="/details/" element={<PersonalDetail />} />
+          <Route path="/password-security/" element={<PasswordSecurity />} />
+          <Route path="*" element={<h1>404 Not Found</h1>} />
 
         </Routes>
         </CarProvider>
