@@ -25,45 +25,45 @@ export default function Dashboard() {
       title: "Manage Account",
       color: "orange",
       items: [
-        { icon: UserIcon, text: "Personal Details" },
-        { icon: LockIcon, text: "Password & Security" },
-        { icon: HomeIcon, text: "Manage Stays" },
-        { icon: CarIcon, text: "Manage Rides" }
+        { icon: UserIcon, text: "Personal Details", link: "/details" },
+        { icon: LockIcon, text: "Password & Security", link: "/password-security"  },
+        { icon: HomeIcon, text: "Manage Stays", link: "/manage-stays"  },
+        { icon: CarIcon, text: "Manage Rides", link: "/manage-rides"  }
       ]
     },
     {
       title: "Booking Activity",
       color: "orange",
       items: [
-        { icon: HomeIcon, text: "Stays" },
-        { icon: CarIcon, text: "Car Rentals" },
-        { icon: HeartIcon, text: "Favorites" },
-        { icon: MessageCircleIcon, text: "My Reviews" }
+        { icon: HomeIcon, text: "Stays", link: "/apartment"  },
+        { icon: CarIcon, text: "Car Rentals", link: "/car-rentals"  },
+        { icon: HeartIcon, text: "Favorites", link: "/favourites"  },
+        { icon: MessageCircleIcon, text: "My Reviews", link: "/reviews"  }
       ]
     },
     {
       title: "Legal & Privacy",
       color: "orange",
       items: [
-        { icon: PenPaper, text: "Terms of Use" },
-        { icon: ShieldCheckIcon, text: "Privacy Policy" },
-        { icon: CookieIcon, text: "Cookies Policy" }
+        { icon: PenPaper, text: "Terms of Use", link: "/terms-of-use"  },
+        { icon: ShieldCheckIcon, text: "Privacy Policy", link: "/privacy"  },
+        { icon: CookieIcon, text: "Cookies Policy", link: "/cookies"  }
       ]
     },
     {
       title: "Help & Support",
       color: "orange",
       items: [
-        { icon: HelpCircleIcon, text: "Contact Customer Support" },
-        { icon: BookOpenIcon, text: "Helpful Articles" }
+        { icon: HelpCircleIcon, text: "Contact Customer Support", link: "/customer-support"  },
+        { icon: BookOpenIcon, text: "Helpful Articles", link: "/helpful"  }
       ]
     },
     {
       title: "Payments",
       color: "orange",
       items: [
-        { icon: CreditCardIcon, text: "Payment Methods" },
-        { icon: FileTextIcon, text: "Payment History" }
+        { icon: CreditCardIcon, text: "Payment Methods", link: "/payment"  },
+        { icon: FileTextIcon, text: "Payment History", link: "/payment"  }
       ]
     }
   ];
@@ -125,21 +125,21 @@ function DashboardCard({ section }) {
       {/* Menu Items */}
       <div className="space-y-1">
         {section.items.map((item, idx) => (
-          <MenuItem key={idx} icon={item.icon} text={item.text} />
+          <MenuItem link={item.link} key={idx} icon={item.icon} text={item.text} />
         ))}
       </div>
     </div>
   );
 }
 
-function MenuItem({ icon, text }) {
+function MenuItem({ icon, text, link }) {
   return (
-    <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors group">
+    <Link to={link} className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors group">
       <div className="flex items-center gap-3">
         <img src={icon} alt={text} className="w-5 h-5" />
         <span className="text-[#333333] text-xs md:text-base font-light group-hover:text-gray-900 transition-colors">{text}</span>
       </div>
       <img src={ChevronRightIcon} alt="arrow" className="w-4 h-3 object-contain" />
-    </button>
+    </Link>
   );
 }
