@@ -10,7 +10,7 @@ import Dashboard from './components/Dashboard';
 import PersonalDetail from './components/PersonalDetails';
 import PasswordSecurity from './components/PasswordSecurity';
 import NotFound from './components/NotFound';
-
+import ManageStays from './components/ManageStays';
 function App() {
   return (
     <GoogleOAuthProvider clientId="">
@@ -25,6 +25,7 @@ function App() {
           <Route path="/dashboard/" element={<Dashboard />} />
           <Route path="/details/" element={<PersonalDetail />} />
           <Route path="/password-security/" element={<PasswordSecurity />} />
+          <Route path="/manage-stays/" element={<ManageStays />} />
           {/* <Route path="*" element={<h1>404 Not Found</h1>} /> */}
           <Route path="*" element={<NotFound />} />
 
