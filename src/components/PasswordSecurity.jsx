@@ -1,15 +1,20 @@
-import React from 'react';
 import { ChevronRight } from 'lucide-react';
-
+import React, { useState } from 'react';
 import User from "../assets/icons/1.svg";
 import CreditCard from '../assets/icons/9.svg';
 import Shield from '../assets/icons/12.svg';
 import HelpCircle from '../assets/icons/5.svg';
 import Shield2 from "../assets/icons/16.svg";
 import Navbar from './Navbar';
+import PasswordModal from "./PasswordModal";
 
 export default function PasswordSecurity() {
+  const [activeModal, setActiveModal] = useState(null);
+  values: "password", "deactivate", "delete"
+
+  
   return (
+    
     <div className="min-h-screen bg-white">
       {/* Nav */}
       <Navbar showNavLinks={false} />
@@ -55,6 +60,7 @@ export default function PasswordSecurity() {
                 description="Last updated 11 days ago"
                 action="Update"
                 actionStyle="normal"
+                onClick={() => setActiveModal('password')}
               />
 
               {/* Deactivate Account */}
@@ -63,6 +69,7 @@ export default function PasswordSecurity() {
                 description="Temporarily Disable Your Account"
                 action="Deactivate"
                 actionStyle="danger"
+                onClick={() => setActiveModal('deactivate')}
               />
 
               {/* Delete Account */}
@@ -71,13 +78,14 @@ export default function PasswordSecurity() {
                 description="Permanently Delete Your Account"
                 action="Delete"
                 actionStyle="danger"
+                onClick={() => setActiveModal('delete')}
               />
             </div>
           </div>
 
           {/* More Actions */}
           <div className="w-full lg:w-80 mt-8 lg:mt-0">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">More Actions</h2>
+            <h2 className="text-lg sm:text-xl font-light text-gray-900 mb-4 sm:mb-6">More Actions</h2>
             <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden">
               <ActionItem icon={User} text="Personal Details" />
               <ActionItem icon={CreditCard} text="Payment Methods" />
@@ -87,6 +95,10 @@ export default function PasswordSecurity() {
           </div>
         </div>
       </main>
+
+      <PasswordModal
+        activeModal={activeModal} 
+        onClose={() => setActiveModal(null)}  />
 
             {/* make component Footer */}
       <footer className="mt-12 sm:mt-16 text-xs">
@@ -104,7 +116,7 @@ export default function PasswordSecurity() {
   );
 }
 
-function SecurityRow({ label, description, action, actionStyle }) {
+function SecurityRow({ label, description, action, actionStyle, onClick  }) {
   return (
     <div className="border-b border-gray-100 pb-4 sm:pb-6">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-0">
@@ -112,7 +124,8 @@ function SecurityRow({ label, description, action, actionStyle }) {
           <h3 className="font-medium text-gray-900 sm:w-48">{label}</h3>
           <div className='flex justify-start'><p className="text-sm sm:text-md text-gray-500">{description}</p></div>
         </div>
-        <button 
+        <button
+          onClick={onClick}
           className={`font-medium underline transition-colors whitespace-nowrap self-start sm:self-auto ${
             actionStyle === 'danger' 
               ? 'text-red-500 hover:text-red-600' 
