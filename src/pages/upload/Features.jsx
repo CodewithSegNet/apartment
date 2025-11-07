@@ -3,39 +3,75 @@ import WizardLayout from "../../components/wizard/WizardLayout";
 import AmenityGrid from "../../components/wizard/AmenityGrid";
 import { useWizard } from "../../context/WizardContext";
 import { useNavigate } from "react-router-dom";
-import { Tv, Fan, WashingMachine, Coffee, Wifi, Refrigerator, Bath, ShowerHead, CupSoda, Radio } from "lucide-react";
+
+import Airconditioner from "../../assets/feature/airconditioner.svg";
+import Balcony from "../../assets/feature/balcony.svg";
+import Blender from "../../assets/feature/blender.svg";
+import Coffee from "../../assets/feature/coffee.svg";
+import Cup from "../../assets/feature/cup.svg";
+import Cutlery from "../../assets/feature/cutlery.svg";
+import Electric from "../../assets/feature/electric.svg";
+import Essentials from "../../assets/feature/essentials.svg";
+import Fan from "../../assets/feature/fan.svg";
+import Fire from "../../assets/feature/fire.svg";
+import Fridge from "../../assets/feature/fridge.svg";
+import Glass from "../../assets/feature/glass.svg";
+import Hair from "../../assets/feature/hair.svg";
+import Hanger from "../../assets/feature/hanger.svg";
+import Hot from "../../assets/feature/hot.svg";
+import Kettle from "../../assets/feature/kettle.svg";
+import Microwave from "../../assets/feature/microwave.svg";
+import Oven from "../../assets/feature/oven.svg";
+import Oven2 from "../../assets/feature/oven2.svg";
+import Parker from "../../assets/feature/parker.svg";
+import Plates from "../../assets/feature/plates.svg";
+import Soap from "../../assets/feature/soap.svg";
+import Sweeper from "../../assets/feature/sweeper.svg";
+import Swimming from "../../assets/feature/swimming.svg";
+import Tissue from "../../assets/feature/tissue.svg";
+import Toaster from "../../assets/feature/toaster.svg";
+import Towels from "../../assets/feature/towels.svg";
+import Tv from "../../assets/feature/tv.svg";
+import Wardrobe from "../../assets/feature/wardrobe.svg";
+import Washing from "../../assets/feature/washing.svg";
+import Wifi from "../../assets/feature/wifi.svg";
+
+
+
+
+
 
 const ALL_AMENITIES = [
-  { key: "free_parking", label: "Free Parking", icon: <Radio size={16} /> },
-  { key: "hot_water", label: "Hot Water", icon: <ShowerHead size={16} /> },
-  { key: "water_kettle", label: "Water Kettle", icon: <CupSoda size={16} /> },
-  { key: "swimming_pool", label: "Swimming Pool", icon: <Bath size={16} /> },
-  { key: "washing_machine", label: "Washing Machine", icon: <WashingMachine size={16} /> },
-  { key: "oven", label: "Oven", icon: <Bath size={16} /> },
-  { key: "towels", label: "Towels", icon: <Bath size={16} /> },
-  { key: "balcony", label: "Balcony", icon: <Bath size={16} /> },
-  { key: "fan", label: "Fan", icon: <Fan size={16} /> },
-  { key: "sweeper", label: "Sweeper", icon: <Bath size={16} /> },
-  { key: "toaster", label: "Toaster", icon: <Bath size={16} /> },
-  { key: "soap", label: "Soap", icon: <Bath size={16} /> },
-  { key: "smart_tv", label: "Smart TV", icon: <Tv size={16} /> },
-  { key: "hair_dryer", label: "Hair Dryer", icon: <Bath size={16} /> },
-  { key: "microwave", label: "Microwave", icon: <Bath size={16} /> },
-  { key: "coffee_maker", label: "Coffee Maker", icon: <Coffee size={16} /> },
-  { key: "essentials", label: "Essentials", icon: <Bath size={16} /> },
-  { key: "wifi", label: "Wifi", icon: <Wifi size={16} /> },
-  { key: "fridge", label: "Fridge", icon: <Refrigerator size={16} /> },
-  { key: "blender", label: "Blender", icon: <Bath size={16} /> },
-  { key: "hangers", label: "Hangers", icon: <Bath size={16} /> },
-  { key: "tissue", label: "Tissue", icon: <Bath size={16} /> },
-  { key: "cutlery", label: "Cutlery", icon: <Bath size={16} /> },
-  { key: "wine_glasses", label: "Wine Glasses", icon: <Bath size={16} /> },
-  { key: "plates", label: "Plates", icon: <Bath size={16} /> },
-  { key: "wardrobe", label: "Wardrobe", icon: <Bath size={16} /> },
-  { key: "air_conditioner", label: "Air Conditioner", icon: <Fan size={16} /> },
-  { key: "electric_cooker", label: "Electric Cooker", icon: <Bath size={16} /> },
-  { key: "fire_extinguisher", label: "Fire Extinguisher", icon: <Bath size={16} /> },
-  { key: "tea_cups", label: "Tea Cups", icon: <CupSoda size={16} /> },
+  { key: "free_parking", label: "Free Parking", icon: <img src={Parker} alt="Free Parking" className="w-6 h-6" /> },
+  { key: "hot_water", label: "Hot Water", icon: <img src={Hot} alt="Hot Water" className="w-6 h-6" /> },
+  { key: "water_kettle", label: "Water Kettle", icon: <img src={Kettle} alt="Water Kettle" className="w-6 h-6" /> },
+  { key: "swimming_pool", label: "Swimming Pool", icon: <img src={Swimming} alt="Swimming Pool" className="w-6 h-6" /> },
+  { key: "washing_machine", label: "Washing Machine", icon: <img src={Washing} alt="Washing Machine" className="w-6 h-6" /> },
+  { key: "oven", label: "Oven", icon: <img src={Oven} alt="Oven" className="w-6 h-6" /> },
+  { key: "towels", label: "Towels", icon: <img src={Towels} alt="Towels" className="w-6 h-6" /> },
+  { key: "balcony", label: "Balcony", icon: <img src={Balcony} alt="Balcony" className="w-6 h-6" /> },
+  { key: "fan", label: "Fan", icon: <img src={Fan} alt="Fan" className="w-6 h-6" /> },
+  { key: "sweeper", label: "Sweeper", icon: <img src={Sweeper} alt="Sweeper" className="w-6 h-6" /> },
+  { key: "toaster", label: "Toaster", icon: <img src={Toaster} alt="Toaster" className="w-6 h-6" /> },
+  { key: "soap", label: "Soap", icon: <img src={Soap} alt="Soap" className="w-6 h-6" /> },
+  { key: "smart_tv", label: "Smart TV", icon: <img src={Tv} alt="Smart TV" className="w-6 h-6" /> },
+  { key: "hair_dryer", label: "Hair Dryer", icon: <img src={Hair} alt="Hair Dryer" className="w-6 h-6" /> },
+  { key: "microwave", label: "Microwave", icon: <img src={Microwave} alt="Microwave" className="w-6 h-6" /> },
+  { key: "coffee_maker", label: "Coffee Maker", icon: <img src={Coffee} alt="Coffee Maker" className="w-6 h-6" /> },
+  { key: "essentials", label: "Essentials", icon: <img src={Essentials} alt="Essentials" className="w-6 h-6" /> },
+  { key: "wifi", label: "Wifi", icon: <img src={Wifi} alt="Wifi" className="w-6 h-6" /> },
+  { key: "fridge", label: "Fridge", icon: <img src={Fridge} alt="Fridge" className="w-6 h-6" /> },
+  { key: "blender", label: "Blender", icon: <img src={Blender} alt="Blender" className="w-6 h-6" /> },
+  { key: "hangers", label: "Hangers", icon: <img src={Hanger} alt="Hangers" className="w-6 h-6" /> },
+  { key: "tissue", label: "Tissue", icon: <img src={Tissue} alt="Tissue" className="w-6 h-6" /> },
+  { key: "cutlery", label: "Cutlery", icon: <img src={Cutlery} alt="Cutlery" className="w-6 h-6" /> },
+  { key: "wine_glasses", label: "Wine Glasses", icon: <img src={Glass} alt="Wine Glasses" className="w-6 h-6" /> },
+  { key: "plates", label: "Plates", icon: <img src={Plates} alt="Plates" className="w-6 h-6" /> },
+  { key: "wardrobe", label: "Wardrobe", icon: <img src={Wardrobe} alt="Wardrobe" className="w-6 h-6" /> },
+  { key: "air_conditioner", label: "Air Conditioner", icon: <img src={Airconditioner} alt="Air Conditioner" className="w-6 h-6" /> },
+  { key: "electric_cooker", label: "Electric Cooker", icon: <img src={Electric} alt="Electric Cooker" className="w-6 h-6" /> },
+  { key: "fire_extinguisher", label: "Fire Extinguisher", icon: <img src={Fire} alt="Fire Extinguisher" className="w-6 h-6" /> },
+  { key: "tea_cups", label: "Tea Cups", icon: <img src={Cup} alt="Tea Cups" className="w-6 h-6" /> },
 ];
 
 export default function Features() {
