@@ -38,7 +38,7 @@ export default function Location() {
       </button>
     </div>
 
-    <div className="relative mb-6">
+    <div className="relative mb-6 w-full">
       <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M10 10.625C11.0355 10.625 11.875 9.78553 11.875 8.75C11.875 7.71447 11.0355 6.875 10 6.875C8.96447 6.875 8.125 7.71447 8.125 8.75C8.125 9.78553 8.96447 10.625 10 10.625Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -52,11 +52,11 @@ export default function Location() {
         value={state.basicInfo.location}
         aria-invalid={!!errors.location}
         onChange={(e)=>dispatch({type:"SET_BASIC", payload:{ location: e.target.value }})}
-        className={`w-full pl-12 pr-44 py-5 rounded-full border ${errors.location ? 'border-red-300' : 'border-gray-200'} bg-white text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition-all`}
+        className={`placeholder:text-xs text-xs md:text-base w-full pl-10 sm:pl-12 pr-32 sm:pr-44 py-4 sm:py-5 rounded-full border ${errors.location ? 'border-red-300' : 'border-gray-200'} bg-white text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition-all`}
       />
       <button 
         type="button" 
-        className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full px-5 py-4 bg-gray-900 text-white text-xs font-medium hover:bg-gray-800 transition-colors"
+        className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 sm:px-5 sm:py-3 bg-gray-900 text-white text-[10px] sm:text-xs font-medium hover:bg-gray-800 transition-colors whitespace-nowrap"
       >
         Use Current Location
       </button>

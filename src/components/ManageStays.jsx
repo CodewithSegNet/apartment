@@ -75,7 +75,7 @@ export default function PasswordSecurity() {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 relative shadow-xl">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 relative shadow-xl my-auto max-h-[98vh] md:max-h-none overflow-y-auto">
             {/* Close Button */}
             <button
               onClick={() => setIsModalOpen(false)}

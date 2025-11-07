@@ -386,7 +386,7 @@ function PasswordModal({ activeModal, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-1 md:p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-[900px] relative">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-[900px] relative my-auto max-h-[98vh] md:max-h-none overflow-y-auto">
         <button
           onClick={onClose}
           className="absolute right-5 top-5 text-black hover:text-gray-600 transition-colors"
