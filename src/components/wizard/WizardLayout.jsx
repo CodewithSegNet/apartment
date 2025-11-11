@@ -11,11 +11,21 @@ const steps = [
   "/upload/review",
   "/upload/complete",
 ];
+const rideSteps = [
+  "/upload-rides/basic",
+  "/upload-rides/location",
+  "/upload-rides/photos",
+  "/upload-rides/features",
+  "/upload-rides/review",
+  "/upload-rides/complete",
+];
 
 function computeProgress(pathname) {
-  const idx = steps.findIndex((s) => pathname.startsWith(s));
-  if (idx === -1) return 0;
-  return ((idx + 1) / steps.length) * 100;
+  const inStay = steps.findIndex((s) => pathname.startsWith(s));
+  if (inStay !== -1) return ((inStay + 1) / steps.length) * 100;
+  const inRide = rideSteps.findIndex((s) => pathname.startsWith(s));
+  if (inRide !== -1) return ((inRide + 1) / rideSteps.length) * 100;
+  return 0;
 }
 
 export default function WizardLayout({ title, subtitle, children, rightCta }) {

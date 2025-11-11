@@ -19,6 +19,13 @@ import Features from './pages/upload/Features';
 import Review from './pages/upload/Review';
 import Complete from './pages/upload/Complete';
 import Success from './pages/upload/Success';
+import BasicRide from './pages/upload-rides/Basic';
+import LocationRide from './pages/upload-rides/Location';
+import PhotosRide from './pages/upload-rides/Photos';
+import FeaturesRide from './pages/upload-rides/Features';
+import ReviewRide from './pages/upload-rides/Review';
+import CompleteRide from './pages/upload-rides/Complete';
+import SuccessRide from './pages/upload-rides/Success';
 import ManageStaysPopulate from './components/ManageStaysPopulate';
 import ManageRides from './components/ManageRides';
 import IdVerify from './components/IdVerify';
@@ -48,6 +55,13 @@ function App() {
           <Route path="/upload/success" element={<Success />} />
           <Route path="/manage-stays-populate" element={<ManageStaysPopulate />} />
           <Route path="/manage-rides" element={<ManageRides />} />
+          <Route path="/upload-rides/basic" element={<BasicRide />} />
+          <Route path="/upload-rides/location" element={<LocationRide />} />
+          <Route path="/upload-rides/photos" element={<PhotosRide />} />
+          <Route path="/upload-rides/features" element={<FeaturesRide />} />
+          <Route path="/upload-rides/review" element={<ReviewRide />} />
+          <Route path="/upload-rides/complete" element={<CompleteRide />} />
+          <Route path="/upload-rides/success" element={<SuccessRide />} />
           <Route path="/id-verify" element={<IdVerify />} />
           <Route path="/upload-id" element={<UploadId />} />
           <Route path="*" element={<NotFound />} />

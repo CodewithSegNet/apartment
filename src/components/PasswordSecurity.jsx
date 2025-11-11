@@ -7,7 +7,7 @@ import HelpCircle from '../assets/icons/5.svg';
 import Shield2 from "../assets/icons/16.svg";
 import Navbar from './Navbar';
 import PasswordModal from "./PasswordModal";
-
+import {  Link } from "react-router-dom";
 export default function PasswordSecurity() {
   const [activeModal, setActiveModal] = useState(null);
   values: "password", "deactivate", "delete"
@@ -87,10 +87,10 @@ export default function PasswordSecurity() {
           <div className="w-full lg:w-80 mt-8 lg:mt-0">
             <h2 className="text-lg sm:text-xl font-light text-gray-900 mb-4 sm:mb-6">More Actions</h2>
             <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden">
-              <ActionItem icon={User} text="Personal Details" />
-              <ActionItem icon={CreditCard} text="Payment Methods" />
-              <ActionItem icon={Shield} text="Privacy Policy" />
-              <ActionItem icon={HelpCircle} text="Contact Customer Support" />
+              <ActionItem link="/details" icon={User} text="Personal Details" />
+              <ActionItem link="/payment" icon={CreditCard} text="Payment Methods" />
+              <ActionItem link="/privacy" icon={Shield} text="Privacy Policy" />
+              <ActionItem link="/contact-support" icon={HelpCircle} text="Contact Customer Support" />
             </div>
           </div>
         </div>
@@ -139,9 +139,9 @@ function SecurityRow({ label, description, action, actionStyle, onClick  }) {
   );
 }
 
-function ActionItem({ icon, text }) {
+function ActionItem({ icon, text, link }) {
   return (
-    <button className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0">
+    <Link to={link} className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0">
       <div className="flex items-center gap-3">
         <div className='w-10 h-10 flex items-center justify-center rounded-full bg-[#3333330D]'>
           <img src={icon} alt={text} className="w-4 h-4 text-gray-400" />
@@ -149,6 +149,6 @@ function ActionItem({ icon, text }) {
         
         <span className="text-gray-700 font-extralight">{text}</span>
       </div>
-    </button>
+    </Link>
   );
 }

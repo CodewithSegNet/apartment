@@ -1,14 +1,15 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import CreditCard from '../assets/icons/9.svg';
 import Shield from '../assets/icons/12.svg';
 import HelpCircle from '../assets/icons/5.svg';
 import Navbar from './Navbar';
 import Car from '../assets/icons/26.svg';
 import Lock from '../assets/icons/2.svg';
-import Bunk from "../assets/icons/19.svg";
-import Desk from "../assets/icons/20.svg";
-import Hands from "../assets/icons/21.svg";
+
+import Car1 from "../assets/icons/28.svg";
+import Car2 from "../assets/icons/29.svg";
+import Car3 from "../assets/icons/30.svg";
 
 export default function ManageRides() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,13 +26,13 @@ export default function ManageRides() {
         <div className="mb-6 text-xs sm:text-sm text-gray-600 bg-[#FF7D011A] w-fit px-3 sm:px-4 py-2 rounded-full flex items-center">
           <span className="underline cursor-pointer hover:text-gray-900">Manage Account</span>
           <span className="mx-1 sm:mx-2">|</span>
-          <span className="text-gray-900">Manage Stays </span>
+          <span className="text-gray-900">Manage Rides</span>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left  */}
           <div className="flex-1">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900 mb-6 sm:mb-8">Stay Listings</h1>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900 mb-6 sm:mb-8">Ride Listings</h1>
 
             {/* Circle */}
             <div className='flex flex-col md:flex-row gap-8 md:gap-12 items-center'>
@@ -44,9 +45,7 @@ export default function ManageRides() {
               </div>
               <div className='flex flex-col gap-4 sm:gap-6 text-center md:text-left'>
                 <div className='text-xl sm:text-2xl font-medium leading-tight text-[#333333]'>No Rides Added</div>
-                <div className='font-extralight text-sm sm:text-base text-[#333333] max-w-md'>
-                  You haven't uploaded any rides yet. Add one now to start earning on Smash Apartments.
-                </div>
+                <div className='font-extralight text-sm sm:text-base text-[#333333] max-w-md'>You haven't uploaded any rides yet. Add one now to start earning on Smash Apartments.</div>
                 <div>
                   <button 
                     onClick={() => setIsModalOpen(true)}
@@ -63,10 +62,10 @@ export default function ManageRides() {
           <div className="w-full lg:w-80 mt-8 lg:mt-0 lg:flex-shrink-0">
             <h2 className="text-lg sm:text-xl font-light text-gray-900 mb-4 sm:mb-6">More Actions</h2>
             <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden">
-              <ActionItem icon={Lock} text="Password and Security" />
-              <ActionItem icon={CreditCard} text="Payment Methods" />
-              <ActionItem icon={Shield} text="Privacy Policy" />
-              <ActionItem icon={HelpCircle} text="Contact Customer Support" />
+              <ActionItem link="password-security" icon={Lock} text="Password and Security" />
+              <ActionItem link="payment" icon={CreditCard} text="Payment Methods" />
+              <ActionItem link="privacy" icon={Shield} text="Privacy Policy" />
+              <ActionItem link="customer-support" icon={HelpCircle} text="Contact Customer Support" />
             </div>
           </div>
         </div>
@@ -90,7 +89,7 @@ export default function ManageRides() {
 
             {/* Modal Content */}
             <h2 className="text-md sm:text-2xl font-semibold text-gray-900 mb-6 pr-8">
-              How to list your stay on Smash Apartments
+              How to list your ride on Smash Apartments
             </h2>
 
             <div className="space-y-3">
@@ -102,14 +101,14 @@ export default function ManageRides() {
                   </div>
                 </div>
                 <div className="flex-1 pt-2">
-                  <h3 className="font-medium text-gray-900 mb-2 text-base">Describe Your Space</h3>
+                  <h3 className="font-medium text-gray-900 mb-2 text-base">Describe Your Ride</h3>
                   <p className="text-xs font-light text-gray-600 tracking-normal leading-relaxed">
-                    Let us know where your place is located and how many guests it comfortably accommodates.
+                    Tell us your pickup location and how many passengers your ride accommodates.
                   </p>
                 </div>
                 <div className="flex-shrink-0">
                   <div className="w-24 h-24">
-                    <img src={Bunk} />
+                    <img src={Car1} />
                   </div>
                 </div>
               </div>
@@ -124,12 +123,12 @@ export default function ManageRides() {
                 <div className="flex-1 pt-2">
                   <h3 className="font-medium text-gray-900 mb-2 text-base">Showcase Its Best Features</h3>
                   <p className="text-xs font-light text-gray-600 leading-relaxed">
-                    Upload at least five high-quality photos, then add the amenities that come with your stay—we'll guide you along the way.
+                    Upload high-quality photos, then add the features that come with your ride—we'll guide you along the way.
                   </p>
                 </div>
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 flex">
                   <div className="w-24 h-24">
-                    <img src={Desk} />
+                    <img src={Car2} />
                   </div>
                 </div>
               </div>
@@ -144,12 +143,12 @@ export default function ManageRides() {
                 <div className="flex-1 pt-2">
                   <h3 className="font-medium text-gray-900 mb-2 text-base">Set Your Details and Go Live</h3>
                   <p className="text-xs font-light text-gray-600 leading-relaxed">
-                    Select a nightly rate, confirm a few quick details, and publish your listing for travelers to discover.
+                    Select your pricing, confirm a few quick details, and publish your ride for renters to discover.
                   </p>
                 </div>
                 <div className="flex-shrink-0">
-                  <div className="w-24 h-24">
-                    <img src={Hands} />
+                  <div className="w-24 h-24 flex">
+                    <img src={Car3} />
                   </div>
                 </div>
               </div>
@@ -160,7 +159,7 @@ export default function ManageRides() {
                 <button
                     onClick={() => {
                     setIsModalOpen(false);
-                    navigate('/upload/basic');
+                    navigate('/upload-rides/basic');
                     }}
                     className="px-9 py-6 bg-[#FF7D01] text-white text-base font-semibold rounded-full shadow-md hover:shadow-lg hover:bg-[#e76e00] transition-all duration-300"
                 >
@@ -188,9 +187,9 @@ export default function ManageRides() {
 }
 
 
-function ActionItem({ icon, text }) {
+function ActionItem({ icon, text, link }) {
   return (
-    <button className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0">
+    <Link to={link} className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0">
       <div className="flex items-center gap-3">
         <div className='w-10 h-10 flex items-center justify-center rounded-full bg-[#3333330D]'>
           <img src={icon} alt={text} className="w-4 h-4 text-gray-400" />
@@ -198,6 +197,6 @@ function ActionItem({ icon, text }) {
         
         <span className="text-gray-700 font-extralight">{text}</span>
       </div>
-    </button>
+    </Link>
   );
 }
