@@ -5,7 +5,7 @@ import PaymentIcon from "../assets/icons/9.svg";
 import PrivacyIcon from "../assets/icons/12.svg";
 import SupportIcon from "../assets/icons/5.svg";
 import Check from "../assets/icons/15.svg";
-
+import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 export default function PersonalDetails() {
   return (
     <div className="min-h-screen bg-white">
@@ -55,6 +55,7 @@ export default function PersonalDetails() {
               {/* Id Verification */}
               <DetailRow
                 label="Identity Verification"
+                link="/id-verify"
                 value="Add a Means of Identification"
                 action="Add"
                 placeholder={true}
@@ -64,6 +65,7 @@ export default function PersonalDetails() {
               {/* Address */}
               <DetailRow
                 label="Address"
+                link="/"
                 value="Add Your Address"
                 action="Add"
                 placeholder={true}
@@ -77,10 +79,10 @@ export default function PersonalDetails() {
             <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6">More Actions</h2>
           
             <div className="bg-white border border-[#3333331A] rounded-xl overflow-hidden shadow-sm">
-              <ActionItem icon={LockIcon} text="Password & Security" />
-              <ActionItem icon={PaymentIcon} text="Payment Methods" />
-              <ActionItem icon={PrivacyIcon} text="Privacy Policy" />
-              <ActionItem icon={SupportIcon} text="Contact Customer Support" />
+              <ActionItem link="/password-security" icon={LockIcon} text="Password & Security" />
+              <ActionItem link="/payment " icon={PaymentIcon} text="Payment Methods" />
+              <ActionItem link="/privacy" icon={PrivacyIcon} text="Privacy Policy" />
+              <ActionItem link="/customer-support" icon={SupportIcon} text="Contact Customer Support" />
             </div>
           </div>
         </div>
@@ -102,7 +104,7 @@ export default function PersonalDetails() {
   );
 }
 
-function DetailRow({ label, value, action, verified, placeholder, description }) {
+function DetailRow({ label, link, value, action, verified, placeholder, description }) {
   return (
     <div className="border-b border-gray-100 py-5 sm:py-6">
       <div className="hidden sm:flex sm:items-start sm:justify-between gap-4">
@@ -134,9 +136,9 @@ function DetailRow({ label, value, action, verified, placeholder, description })
         </div>
 
         {/* Right Side: Action Button */}
-        <button className="text-gray-900 font-medium underline hover:text-orange-500 transition-colors flex-shrink-0">
+        <Link to={link} className="text-gray-900 font-medium underline hover:text-orange-500 transition-colors flex-shrink-0">
           {action}
-        </button>
+        </Link>
       </div>
 
       {/* Mobile Layout*/}
@@ -172,15 +174,15 @@ function DetailRow({ label, value, action, verified, placeholder, description })
   );
 }
 
-function ActionItem({ icon, text }) {
+function ActionItem({ icon, text, link }) {
   return (
-    <button className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors border-b border-[#3333331A] last:border-b-0 group">
+    <Link to={link} className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors border-b border-[#3333331A] last:border-b-0 group">
       <div className="flex items-center gap-3">
         <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#3333330D]">
           <img src={icon} alt="" className="w-5 h-5" />
         </div>
         <span className="text-[#333333] font-extralight text-sm sm:text-base group-hover:text-gray-900 transition-colors">{text}</span>
       </div>
-    </button>
+    </Link>
   );
 }

@@ -6,6 +6,7 @@ const initialState = {
   basicInfo: { name: "", location: "", description: "", guests: { adults: 0, children: 0, infants: 0 }, type: "" , beds: 1, baths: 1 },
   features: {},
   photos: [],
+  video: null,
   price: 0,
   payout: { accountNumber: "", bank: "", accountName: "" },
 };
@@ -22,6 +23,10 @@ function reducer(state, action) {
       return { ...state, photos: state.photos.filter((p) => p.id !== action.payload) };
     case "REORDER_PHOTOS":
       return { ...state, photos: action.payload };
+    case "SET_VIDEO":
+      return { ...state, video: action.payload };
+    case "REMOVE_VIDEO":
+      return { ...state, video: null };
     case "RESET":
       return initialState;
     case "SET_PRICE":

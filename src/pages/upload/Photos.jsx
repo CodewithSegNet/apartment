@@ -1,6 +1,7 @@
 import React from "react";
 import WizardLayout from "../../components/wizard/WizardLayout";
 import PhotoUploader from "../../components/wizard/PhotoUploader";
+import VideoUploader from "../../components/wizard/VideoUploader";
 import { useWizard } from "../../context/WizardContext";
 import { useNavigate } from "react-router-dom";
 import Upload from "../../assets/icons/25.svg";
@@ -31,6 +32,17 @@ export default function Photos() {
           value={state.photos}
           onChange={(val)=>dispatch({type:"REORDER_PHOTOS", payload: val})}
           showError={showError}
+        />
+
+        <div className="flex py-5 ">
+          <img className="w-6 h-10 pr-1" src={Upload} />
+          <p className="mt-2 text-sm font-medium text-black">Upload a Short Video Tour <span className="bg-[#FF7D011A]/10 rounded-full px-2 py-1.5">Max 20s</span></p>
+        </div>
+
+        <VideoUploader
+          value={state.video}
+          onChange={(val)=>dispatch({ type: "SET_VIDEO", payload: val })}
+          showError={false}
         />
       </div>
     </WizardLayout>

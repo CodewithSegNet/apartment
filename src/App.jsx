@@ -19,6 +19,10 @@ import Features from './pages/upload/Features';
 import Review from './pages/upload/Review';
 import Complete from './pages/upload/Complete';
 import Success from './pages/upload/Success';
+import ManageStaysPopulate from './components/ManageStaysPopulate';
+import ManageRides from './components/ManageRides';
+import IdVerify from './components/IdVerify';
+import UploadId from "./components/UploadId"
 function App() {
   return (
     <GoogleOAuthProvider clientId="">
@@ -42,6 +46,10 @@ function App() {
           <Route path="/upload/review" element={<Review />} />
           <Route path="/upload/complete" element={<Complete />} />
           <Route path="/upload/success" element={<Success />} />
+          <Route path="/manage-stays-populate" element={<ManageStaysPopulate />} />
+          <Route path="/manage-rides" element={<ManageRides />} />
+          <Route path="/id-verify" element={<IdVerify />} />
+          <Route path="/upload-id" element={<UploadId />} />
           <Route path="*" element={<NotFound />} />
 
         </Routes>
