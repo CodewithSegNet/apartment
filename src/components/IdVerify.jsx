@@ -23,9 +23,9 @@ export default function IdVerify() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 pt-20 sm:pt-28 flex-1 w-full">
         {/* Breadcrumb */}
         <div className="mb-6 text-xs sm:text-sm text-gray-600 bg-[#FF7D011A] w-fit px-3 sm:px-4 py-2 rounded-full flex items-center">
-          <span className="underline cursor-pointer hover:text-gray-900">Manage Account</span>
+          <Link to="/dashboard" className="underline font-semibold cursor-pointer hover:text-gray-900">Manage Account</Link>
           <span className="mx-1 sm:mx-2">|</span>
-          <span className="text-gray-900">Manage Stays </span>
+          <Link to="/details" className="underline font-semibold cursor-pointer hover:text-gray-900">Personal Details </Link>
           <span className="mx-1 sm:mx-2">|</span>
           <span className="text-gray-900">Identify Verification </span>
         </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from './Navbar';
 import LockIcon from "../assets/icons/2.svg";
 import PaymentIcon from "../assets/icons/9.svg";
@@ -6,7 +6,20 @@ import PrivacyIcon from "../assets/icons/12.svg";
 import SupportIcon from "../assets/icons/5.svg";
 import Check from "../assets/icons/15.svg";
 import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
+import FullNameModal from './FullNameModal';
+import PhoneNumberModal from './PhoneNumberModal';
+import EmailAddressModal from './EmailAddressModal';
+
 export default function PersonalDetails() {
+  const [showFullNameModal, setShowFullNameModal] = useState(false);
+  const [showPhoneNumberModal, setShowPhoneNumberModal] = useState(false);
+  const [showEmailAddressModal, setShowEmailAddressModal] = useState(false);
+
+  // Current user data - in a real app, this would come from state/API
+  const currentFullName = "Hamsah Yusuf";
+  const currentEmail = "HamsahYusuf917@gmail.com";
+  const currentPhoneNumber = ""; // Empty since it says "Add Your Phone Number"
+
   return (
     <div className="min-h-screen bg-white">
       {/* Nav */}
@@ -16,7 +29,7 @@ export default function PersonalDetails() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-20 sm:pt-28">
         {/* Breadcrumb */}
         <div className="mb-6 text-xs sm:text-sm text-gray-600 bg-[#FF7D011A] w-fit px-3 sm:px-4 py-2 rounded-full flex items-center">
-          <span className="underline cursor-pointer font-semibold hover:text-gray-900">Manage Account</span>
+          <Link to="/dashboard" className="underline cursor-pointer font-semibold hover:text-gray-900">Manage Account</Link>
           <span className="mx-1 sm:mx-2">|</span>
           <span className="text-gray-900 font-extralight">Personal Details</span>
         </div>
@@ -32,6 +45,7 @@ export default function PersonalDetails() {
                 label="Full Name"
                 value="Hamsah Yusuf"
                 action="Update"
+                onClick={() => setShowFullNameModal(true)}
               />
 
               {/* Email Address */}
@@ -41,6 +55,7 @@ export default function PersonalDetails() {
                 action="Update"
                 verified={true}
                 description="This is the email address you use to sign in. It's also where we send your booking confirmations."
+                onClick={() => setShowEmailAddressModal(true)}
               />
 
               {/* Phone Number */}
@@ -50,6 +65,7 @@ export default function PersonalDetails() {
                 action="Add"
                 placeholder={true}
                 description="Properties or attractions you book will use this number if they need to contact you."
+                onClick={() => setShowPhoneNumberModal(true)}
               />
 
               {/* Id Verification */}
@@ -100,11 +116,62 @@ export default function PersonalDetails() {
           </div>
         </div>
       </footer>
+
+      {/* Modals */}
+      <FullNameModal
+        isOpen={showFullNameModal}
+        onClose={() => setShowFullNameModal(false)}
+        currentFullName={currentFullName}
+      />
+      <PhoneNumberModal
+        isOpen={showPhoneNumberModal}
+        onClose={() => setShowPhoneNumberModal(false)}
+        currentPhoneNumber={currentPhoneNumber}
+      />
+      <EmailAddressModal
+        isOpen={showEmailAddressModal}
+        onClose={() => setShowEmailAddressModal(false)}
+        currentEmail={currentEmail}
+      />
     </div>
   );
 }
 
-function DetailRow({ label, link, value, action, verified, placeholder, description }) {
+function DetailRow({ label, link, value, action, verified, placeholder, description, onClick }) {
+  const handleActionClick = (e) => {
+    if (onClick) {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
+  // If link is provided, use Link component; otherwise use button with onClick
+  const ActionElement = link ? (
+    <Link to={link} className="text-gray-900 font-medium underline hover:text-orange-500 transition-colors flex-shrink-0">
+      {action}
+    </Link>
+  ) : (
+    <button 
+      onClick={handleActionClick}
+      className="text-gray-900 font-medium underline hover:text-orange-500 transition-colors flex-shrink-0"
+    >
+      {action}
+    </button>
+  );
+
+  const MobileActionElement = link ? (
+    <Link to={link} className="text-gray-900 font-medium underline hover:text-orange-500 transition-colors text-sm flex-shrink-0">
+      {action}
+    </Link>
+  ) : (
+    <button 
+      onClick={handleActionClick}
+      className="text-gray-900 font-medium underline hover:text-orange-500 transition-colors text-sm flex-shrink-0"
+    >
+      {action}
+    </button>
+  );
+
   return (
     <div className="border-b border-gray-100 py-5 sm:py-6">
       <div className="hidden sm:flex sm:items-start sm:justify-between gap-4">
@@ -136,9 +203,7 @@ function DetailRow({ label, link, value, action, verified, placeholder, descript
         </div>
 
         {/* Right Side: Action Button */}
-        <Link to={link} className="text-gray-900 font-medium underline hover:text-orange-500 transition-colors flex-shrink-0">
-          {action}
-        </Link>
+        {ActionElement}
       </div>
 
       {/* Mobile Layout*/}
@@ -146,9 +211,7 @@ function DetailRow({ label, link, value, action, verified, placeholder, descript
         {/* Row 1: Label and Action */}
         <div className="flex items-center justify-between gap-3">
           <h3 className="font-semibold text-gray-900 text-sm">{label}</h3>
-          <button className="text-gray-900 font-medium underline hover:text-orange-500 transition-colors text-sm flex-shrink-0">
-            {action}
-          </button>
+          {MobileActionElement}
         </div>
 
         {/* Row 2: Value & Verified Icon */}

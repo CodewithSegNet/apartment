@@ -30,6 +30,8 @@ import ManageStaysPopulate from './components/ManageStaysPopulate';
 import ManageRides from './components/ManageRides';
 import IdVerify from './components/IdVerify';
 import UploadId from "./components/UploadId"
+import Payment from './components/Payment';
+import PaymentHistory from './components/PaymentHistory';
 function App() {
   return (
     <GoogleOAuthProvider clientId="">
@@ -64,6 +66,8 @@ function App() {
           <Route path="/upload-rides/success" element={<SuccessRide />} />
           <Route path="/id-verify" element={<IdVerify />} />
           <Route path="/upload-id" element={<UploadId />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/payment-history" element={<PaymentHistory />} />
           <Route path="*" element={<NotFound />} />
 
         </Routes>

@@ -4,14 +4,13 @@ import CreditCard from '../assets/icons/9.svg';
 import Shield from '../assets/icons/12.svg';
 import HelpCircle from '../assets/icons/5.svg';
 import Navbar from './Navbar';
-import Car from '../assets/icons/26.svg';
+import Card from '../assets/icons/31.svg';
 import Lock from '../assets/icons/2.svg';
+import Bunk from "../assets/icons/19.svg";
+import Desk from "../assets/icons/20.svg";
+import Hands from "../assets/icons/21.svg";
 
-import Car1 from "../assets/icons/28.svg";
-import Car2 from "../assets/icons/29.svg";
-import Car3 from "../assets/icons/30.svg";
-
-export default function ManageRides() {
+export default function PasswordSecurity() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -26,32 +25,34 @@ export default function ManageRides() {
         <div className="mb-6 text-xs sm:text-sm text-gray-600 bg-[#FF7D011A] w-fit px-3 sm:px-4 py-2 rounded-full flex items-center">
           <Link to="/dashboard" className="underline cursor-pointer hover:text-gray-900">Manage Account</Link>
           <span className="mx-1 sm:mx-2">|</span>
-          <span className="text-gray-900">Manage Rides</span>
+          <span className="text-gray-900">Manage Stays </span>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left  */}
           <div className="flex-1">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900 mb-6 sm:mb-8">Ride Listings</h1>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900 mb-6 sm:mb-8">Payment Methods</h1>
 
             {/* Circle */}
             <div className='flex flex-col md:flex-row gap-8 md:gap-12 items-center'>
               <div className="flex items-center justify-center w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full bg-[#F5F5F5] flex-shrink-0">
                 <img
-                  src={Car}
+                  src={Card}
                   alt="Security Icon"
                   className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 object-contain"
                 />
               </div>
               <div className='flex flex-col gap-4 sm:gap-6 text-center md:text-left'>
-                <div className='text-xl sm:text-2xl font-medium leading-tight text-[#333333]'>No Rides Added</div>
-                <div className='font-extralight text-sm sm:text-base text-[#333333] max-w-md'>You haven't uploaded any rides yet. Add one now to start earning on Smash Apartments.</div>
+                <div className='text-xl sm:text-2xl font-medium leading-tight text-[#333333]'>No Payment Method Added</div>
+                <div className='font-extralight text-sm sm:text-base text-[#333333] max-w-md'>
+                  You haven’t uploaded any payment method yet. Add one now to make bookings faster and easier.
+                </div>
                 <div>
                   <button 
                     onClick={() => setIsModalOpen(true)}
                     className='inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full bg-[#FF7D01] text-white text-sm sm:text-base font-medium hover:bg-opacity-90 transition-colors'>
                     <span className='text-lg sm:text-xl'>+</span>
-                    Add a Listing
+                    Add a Payment Method
                   </button>
                 </div>
               </div>
@@ -62,10 +63,10 @@ export default function ManageRides() {
           <div className="w-full lg:w-80 mt-8 lg:mt-0 lg:flex-shrink-0">
             <h2 className="text-lg sm:text-xl font-light text-gray-900 mb-4 sm:mb-6">More Actions</h2>
             <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden">
-              <ActionItem link="password-security" icon={Lock} text="Password and Security" />
-              <ActionItem link="payment" icon={CreditCard} text="Payment Methods" />
-              <ActionItem link="privacy" icon={Shield} text="Privacy Policy" />
-              <ActionItem link="customer-support" icon={HelpCircle} text="Contact Customer Support" />
+              <ActionItem link="/details" icon={Lock} text="Personal Details" />
+              <ActionItem link="/payment" icon={CreditCard} text="Payment Methods" />
+              <ActionItem link="/privacy" icon={Shield} text="Privacy Policy" />
+              <ActionItem link="/contact" icon={HelpCircle} text="Contact Customer Support" />
             </div>
           </div>
         </div>
@@ -89,83 +90,10 @@ export default function ManageRides() {
 
             {/* Modal Content */}
             <h2 className="text-md sm:text-2xl font-semibold text-gray-900 mb-6 pr-8">
-              How to list your ride on Smash Apartments
+              Card Modal
             </h2>
 
-            <div className="space-y-3">
-              {/* Step 1 */}
-              <div className="flex gap-1">
-                <div className="flex-shrink-0">
-                  <div className="w-10 h-10 text-black flex items-center justify-center font-semibold text-md">
-                    1
-                  </div>
-                </div>
-                <div className="flex-1 pt-2">
-                  <h3 className="font-medium text-gray-900 mb-2 text-base">Describe Your Ride</h3>
-                  <p className="text-xs font-light text-gray-600 tracking-normal leading-relaxed">
-                    Tell us your pickup location and how many passengers your ride accommodates.
-                  </p>
-                </div>
-                <div className="flex-shrink-0">
-                  <div className="w-24 h-24">
-                    <img src={Car1} />
-                  </div>
-                </div>
-              </div>
-
-              {/* Step 2 */}
-              <div className="flex gap-1">
-                <div className="flex-shrink-0">
-                  <div className="w-10 h-10 text-black flex items-center justify-center font-semibold text-md">
-                    2
-                  </div>
-                </div>
-                <div className="flex-1 pt-2">
-                  <h3 className="font-medium text-gray-900 mb-2 text-base">Showcase Its Best Features</h3>
-                  <p className="text-xs font-light text-gray-600 leading-relaxed">
-                    Upload high-quality photos, then add the features that come with your ride—we'll guide you along the way.
-                  </p>
-                </div>
-                <div className="flex-shrink-0 flex">
-                  <div className="w-24 h-24">
-                    <img src={Car2} />
-                  </div>
-                </div>
-              </div>
-
-              {/* Step 3 */}
-              <div className="flex gap-1">
-                <div className="flex-shrink-0">
-                  <div className="w-10 h-10 text-black flex items-center justify-center font-semibold text-md">
-                    3
-                  </div>
-                </div>
-                <div className="flex-1 pt-2">
-                  <h3 className="font-medium text-gray-900 mb-2 text-base">Set Your Details and Go Live</h3>
-                  <p className="text-xs font-light text-gray-600 leading-relaxed">
-                    Select your pricing, confirm a few quick details, and publish your ride for renters to discover.
-                  </p>
-                </div>
-                <div className="flex-shrink-0">
-                  <div className="w-24 h-24 flex">
-                    <img src={Car3} />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Proceed Button */}
-            <div className="flex justify-center mt-2">
-                <button
-                    onClick={() => {
-                    setIsModalOpen(false);
-                    navigate('/upload-rides/basic');
-                    }}
-                    className="px-9 py-6 bg-[#FF7D01] text-white text-base font-semibold rounded-full shadow-md hover:shadow-lg hover:bg-[#e76e00] transition-all duration-300"
-                >
-                    Proceed To Listing
-                </button>
-            </div>
+            
           </div>
         </div>
       )}

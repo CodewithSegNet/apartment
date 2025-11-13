@@ -63,7 +63,7 @@ export default function Dashboard() {
       color: "orange",
       items: [
         { icon: CreditCardIcon, text: "Payment Methods", link: "/payment"  },
-        { icon: FileTextIcon, text: "Payment History", link: "/payment"  }
+        { icon: FileTextIcon, text: "Payment History", link: "/payment-history"  }
       ]
     }
   ];
