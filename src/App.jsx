@@ -69,6 +69,7 @@ function App() {
           <Route path="/payment" element={<Payment />} />
           <Route path="/payment-history" element={<PaymentHistory />} />
           <Route path="*" element={<NotFound />} />
+          
 
         </Routes>
         </WizardProvider>
