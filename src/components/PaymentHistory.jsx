@@ -32,30 +32,8 @@ export default function PaymentHistory() {
           <div className="flex-1">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900 mb-6 sm:mb-8">Payment History</h1>
 
-            {/* Circle */}
-            {/* <div className='flex flex-col md:flex-row gap-8 md:gap-12 items-center'>
-              <div className="flex items-center justify-center w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full bg-[#F5F5F5] flex-shrink-0">
-                <img
-                  src={Card}
-                  alt="Security Icon"
-                  className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 object-contain"
-                />
-              </div>
-              <div className='flex flex-col gap-4 sm:gap-6 text-center md:text-left'>
-                <div className='text-xl sm:text-2xl font-medium leading-tight text-[#333333]'>No Payment Method Added</div>
-                <div className='font-extralight text-sm sm:text-base text-[#333333] max-w-md'>
-                  You haven’t uploaded any payment method yet. Add one now to make bookings faster and easier.
-                </div>
-                <div>
-                  <button 
-                    onClick={() => setIsModalOpen(true)}
-                    className='inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full bg-[#FF7D01] text-white text-sm sm:text-base font-medium hover:bg-opacity-90 transition-colors'>
-                    <span className='text-lg sm:text-xl'>+</span>
-                    Add a Payment Method
-                  </button>
-                </div>
-              </div>
-            </div> */}
+            {/* Content */}
+
           </div>
 
           {/* More Actions */}

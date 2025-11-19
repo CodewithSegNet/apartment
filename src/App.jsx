@@ -32,6 +32,10 @@ import IdVerify from './components/IdVerify';
 import UploadId from "./components/UploadId"
 import Payment from './components/Payment';
 import PaymentHistory from './components/PaymentHistory';
+import Favourites from './components/Favourites';
+import Reviews from './components/Reviews';
+import Stays from './components/Stays';
+import CarsRental from "./components/CarsRental";
 function App() {
   return (
     <GoogleOAuthProvider clientId="">
@@ -68,6 +72,10 @@ function App() {
           <Route path="/upload-id" element={<UploadId />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/payment-history" element={<PaymentHistory />} />
+          <Route path="/favourites" element={<Favourites />} />
+          <Route path="/reviews" element={<Reviews />} />
+          <Route path="/stays" element={<Stays />} />
+          <Route path="/carsrental" element={<CarsRental />} />
           <Route path="*" element={<NotFound />} />
           
 

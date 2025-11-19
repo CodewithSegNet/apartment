@@ -35,8 +35,8 @@ export default function Dashboard() {
       title: "Booking Activity",
       color: "orange",
       items: [
-        { icon: HomeIcon, text: "Stays", link: "/apartment"  },
-        { icon: CarIcon, text: "Car Rentals", link: "/car-rentals"  },
+        { icon: HomeIcon, text: "Stays", link: "/stays"  },
+        { icon: CarIcon, text: "Car Rentals", link: "/carsrental"  },
         { icon: HeartIcon, text: "Favorites", link: "/favourites"  },
         { icon: MessageCircleIcon, text: "My Reviews", link: "/reviews"  }
       ]
