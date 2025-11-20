@@ -96,9 +96,9 @@ export default function Stays() {
       <Navbar showNavLinks={false} />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 pt-20 sm:pt-28 flex-1 w-full">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8 pt-20 sm:pt-28 flex-1 w-full">
         {/* Breadcrumb */}
-        <div className="mb-6 text-xs sm:text-sm text-gray-600 bg-[#FF7D011A] w-fit px-3 sm:px-4 py-2 rounded-full flex items-center">
+        <div className="mb-4 sm:mb-6 text-xs sm:text-sm text-gray-600 bg-[#FF7D011A] w-fit px-3 sm:px-4 py-2 rounded-full flex items-center">
           <Link
             to="/dashboard"
             className="font-semibold underline cursor-pointer hover:text-gray-900"
@@ -109,30 +109,29 @@ export default function Stays() {
           <span className="text-gray-900">Car Rentals</span>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Left */}
           <div className="flex-1">
-          
-            <div className="flex items-center gap-2 mb-6 sm:mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-2 mb-6 sm:mb-8">
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900">
                 Car Rentals
               </h1>
-              <div className="h-9 w-px bg-[#333333]/50"></div>
-              <button className="flex items-center gap-2  py-2 bg-white rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition">
+              <div className="hidden sm:block h-9 w-px bg-[#333333]/50"></div>
+              <button className="flex items-center justify-center sm:justify-start gap-2 px-4 py-2 bg-white rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition border border-gray-200 sm:border-0">
                 <span>Filter By Date</span>
-                <img src={Calender} alt="Filter By Date" />
+                <img src={Calender} alt="Filter By Date" className="w-4 h-4" />
               </button>
             </div>
 
          
-            <div className="space-y-10">
+            <div className="space-y-6 sm:space-y-10">
               {displayedStays.map((booking) => (
                 <StayBookingItem key={booking.id} booking={booking} />
               ))}
 
               {/* Show More */}
               {!showMoreStays && stayBookingsMore.length > 0 && (
-                <div className="mt-8 flex justify-center">
+                <div className="mt-6 sm:mt-8 flex justify-center">
                   <button
                     onClick={() => setShowMoreStays(true)}
                     className="text-[#FF7D01] font-medium inline-flex items-center gap-2"
@@ -159,7 +158,7 @@ export default function Stays() {
           </div>
 
           {/* More Actions */}
-          <div className="w-full lg:w-80 mt-8 lg:mt-0 lg:flex-shrink-0">
+          <div className="w-full lg:w-80 mt-6 lg:mt-0 lg:flex-shrink-0">
             <h2 className="text-lg sm:text-xl font-light text-gray-900 mb-4 sm:mb-6">
               More Actions
             </h2>
@@ -206,11 +205,9 @@ export default function Stays() {
 
 function StayBookingItem({ booking }) {
   return (
-    <div className="mb-10">
-      
-      <div className="flex items-start gap-4">
-       
-        <div className="w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] rounded-2xl overflow-hidden flex-shrink-0">
+    <div className="mb-6 sm:mb-10">
+      <div className="flex flex-col sm:flex-row items-start gap-4">
+        <div className="w-full sm:w-[140px] h-[200px] sm:h-[140px] md:w-[160px] md:h-[160px] rounded-2xl overflow-hidden flex-shrink-0">
           <img
             src={booking.image}
             alt={booking.title}
@@ -218,61 +215,90 @@ function StayBookingItem({ booking }) {
           />
         </div>
 
-        
-        <div className="flex-1 flex flex-col">
-     
-          <div className="flex items-start justify-between mb-2">
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-1">
+        <div className="flex-1 flex flex-col w-full">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-0 mb-3">
+            <div className="flex-1">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1">
                 {booking.title}
               </h3>
-              <div className="flex gap-2">
-                <img src={Location} />
-                <p className="text-sm text-gray-500">{booking.location}</p>
+              <div className="flex gap-2 items-center text-sm text-gray-500">
+                <img src={Location} alt="Location" className="w-3.5 h-3.5" />
+                <p>{booking.location}</p>
               </div>
-              
             </div>
-            <div className="text-2xl font-semibold text-gray-900">
+            <div className="text-xl sm:text-2xl font-semibold text-gray-900">
               {booking.price}
             </div>
           </div>
 
-          
           <div className="mb-4">
-            <span className="text-sm font-normal bg-[#FFF1E6] text-[#FF7D01] rounded-full px-2 py-1">
-              Rating 
-              <span className="font-semibold"> {booking.rating}</span> 
+            <span className="text-sm font-normal bg-[#FFF1E6] text-[#FF7D01] rounded-full px-3 py-1 inline-block">
+              Rating <span className="font-semibold">{booking.rating}</span>
             </span>
           </div>
 
-          
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-6 text-sm">
-              <div>
-                <span className="text-[#333333] block text-xs font-semibold mb-1">Pick Up Date</span>
-                <span className="font-normal text-xs text-gray-900">{booking.checkIn}</span>
-              </div>
-              <div className="h-9 w-px bg-[#333333]/50"></div>
-              <div>
-                <span className="text-[#333333] font-semibold block text-xs mb-1">Pick Up Time</span>
-                <span className="font-normal text-xs text-gray-900">{booking.checkOut}</span>
-              </div>
-              <div className="h-9 w-px bg-[#333333]/50"></div>
-              <div>
-                <span className="text-[#333333] font-semibold block text-xs mb-1">Return Date</span>
-                <span className="font-normal text-xs text-gray-900">{booking.returnTime.date}</span>
-              </div>
-              <div className="h-9 w-px bg-[#333333]/50"></div>
-              <div>
-                <span className="text-[#333333] font-semibold block text-xs mb-1">Return Time</span>
-                <span className="font-normal text-xs text-gray-900">{booking.returnTime.time}</span>
-              </div>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="text-sm">
+              
+              <div className="
+                grid grid-cols-2 gap-4 
+                sm:flex sm:items-center sm:gap-6 sm:overflow-x-auto
+              ">
+                
+                <div className="flex-shrink-0">
+                  <span className="text-[#333333] block text-xs font-semibold mb-1">
+                    Pick Up Date
+                  </span>
+                  <span className="font-normal text-xs text-gray-900">
+                    {booking.checkIn}
+                  </span>
+                </div>
 
+                
+                <div className="hidden sm:block h-9 w-px bg-[#333333]/50 flex-shrink-0"></div>
+
+               
+                <div className="flex-shrink-0">
+                  <span className="text-[#333333] font-semibold block text-xs mb-1">
+                    Pick Up Time
+                  </span>
+                  <span className="font-normal text-xs text-gray-900">
+                    {booking.checkOut}
+                  </span>
+                </div>
+
+           
+                <div className="hidden sm:block h-9 w-px bg-[#333333]/50 flex-shrink-0"></div>
+
+               
+                <div className="flex-shrink-0">
+                  <span className="text-[#333333] font-semibold block text-xs mb-1">
+                    Return Date
+                  </span>
+                  <span className="font-normal text-xs text-gray-900">
+                    {booking.returnTime.date}
+                  </span>
+                </div>
+
+                
+                <div className="hidden sm:block h-9 w-px bg-[#333333]/50 flex-shrink-0"></div>
+
+               
+                <div className="flex-shrink-0">
+                  <span className="text-[#333333] font-semibold block text-xs mb-1">
+                    Return Time
+                  </span>
+                  <span className="font-normal text-xs text-gray-900">
+                    {booking.returnTime.time}
+                  </span>
+                </div>
+              </div>
             </div>
-            
+
+
             <Link
               to="#"
-              className="text-black text-md font-medium hover:underline underline"
+              className="text-black text-sm sm:text-md font-medium hover:underline underline flex-shrink-0 self-start sm:self-auto"
             >
               Re-Book
             </Link>
@@ -280,18 +306,15 @@ function StayBookingItem({ booking }) {
         </div>
       </div>
 
-     
-      <div className="flex items-center gap-4 mt-6">
-        <button className="w-14 h-14 flex items-center justify-center rounded-full bg-[#FFF3E6]">
-            <img src={HeartUnfilled} alt="Favorite" className="w-6 h-6" />
+      <div className="flex items-center gap-3 sm:gap-4 mt-4 sm:mt-6">
+        <button className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-[#FFF3E6] flex-shrink-0">
+          <img src={HeartUnfilled} alt="Favorite" className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
 
-        
-        <button className="px-5 py-5 bg-[#FF7D01]/10 text-[#FF7D01] rounded-full font-medium shadow-sm hover:shadow transition">
-            Make a Review
+        <button className="flex-1 sm:flex-initial px-4 sm:px-5 py-3 sm:py-4 bg-[#FF7D01]/10 text-[#FF7D01] rounded-full font-medium shadow-sm hover:shadow transition text-sm sm:text-base">
+          Make a Review
         </button>
       </div>
-      
     </div>
   );
 }

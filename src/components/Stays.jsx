@@ -12,6 +12,7 @@ import Stay3 from "../assets/images/3.png";
 import Calender from "../assets/icons/35.svg";
 import ReviewModal from "./ReviewModal";
 import RatingModal from "./RatingModal";
+
 export default function Stays() {
   const [showMoreStays, setShowMoreStays] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
@@ -54,7 +55,6 @@ export default function Stays() {
     setReviewText("");
   };
 
-  // Dummy stay bookings data
   const stayBookings = [
     {
       id: "booking-1",
@@ -115,13 +115,11 @@ export default function Stays() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      {/* Nav */}
       <Navbar showNavLinks={false} />
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 pt-20 sm:pt-28 flex-1 w-full">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8 pt-20 sm:pt-28 flex-1 w-full">
         {/* Breadcrumb */}
-        <div className="mb-6 text-xs sm:text-sm text-gray-600 bg-[#FF7D011A] w-fit px-3 sm:px-4 py-2 rounded-full flex items-center">
+        <div className="mb-4 sm:mb-6 text-xs sm:text-sm text-gray-600 bg-[#FF7D011A] w-fit px-3 sm:px-4 py-2 rounded-full flex items-center">
           <Link
             to="/dashboard"
             className="font-semibold underline cursor-pointer hover:text-gray-900"
@@ -132,23 +130,22 @@ export default function Stays() {
           <span className="text-gray-900">Stays</span>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Left */}
           <div className="flex-1">
-
-            <div className="flex items-center gap-2 mb-6 sm:mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-2 mb-6 sm:mb-8">
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900">
                 Stays
               </h1>
-              <div className="h-9 w-px bg-[#333333]/50"></div>
-              <button className="flex items-center gap-2  py-2 bg-white rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition">
+              <div className="hidden sm:block h-9 w-px bg-[#333333]/50"></div>
+              <button className="flex items-center justify-center sm:justify-start gap-2 px-4 py-2 bg-white rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition border border-gray-200 sm:border-0">
                 <span>Filter By Date</span>
-                <img src={Calender} alt="Filter By Date" />
+                <img src={Calender} alt="Filter By Date" className="w-4 h-4" />
               </button>
             </div>
 
             {/* Bookings List */}
-            <div className="space-y-10">
+            <div className="space-y-6 sm:space-y-10">
               {displayedStays.map((booking) => (
                 <StayBookingItem
                   key={booking.id}
@@ -159,7 +156,7 @@ export default function Stays() {
 
               {/* Show More */}
               {!showMoreStays && stayBookingsMore.length > 0 && (
-                <div className="mt-8 flex justify-center">
+                <div className="mt-6 sm:mt-8 flex justify-center">
                   <button
                     onClick={() => setShowMoreStays(true)}
                     className="text-[#FF7D01] font-medium inline-flex items-center gap-2"
@@ -186,7 +183,7 @@ export default function Stays() {
           </div>
 
           {/* More Actions */}
-          <div className="w-full lg:w-80 mt-8 lg:mt-0 lg:flex-shrink-0">
+          <div className="w-full lg:w-80 mt-6 lg:mt-0 lg:flex-shrink-0">
             <h2 className="text-lg sm:text-xl font-light text-gray-900 mb-4 sm:mb-6">
               More Actions
             </h2>
@@ -227,7 +224,7 @@ export default function Stays() {
       )}
 
       {/* Footer */}
-      <footer className="mt-auto text-xs">
+      <footer className="mt-auto text-xs border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-600">
             <p>
@@ -248,14 +245,13 @@ export default function Stays() {
   );
 }
 
-
 function StayBookingItem({ booking, onReviewClick }) {
   return (
-    <div className="mb-10">
+    <div className="mb-6 sm:mb-10">
       {/* Card Container */}
-      <div className="flex items-start gap-4">
+      <div className="flex flex-col sm:flex-row items-start gap-4">
         {/* Image */}
-        <div className="w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] rounded-2xl overflow-hidden flex-shrink-0">
+        <div className="w-full sm:w-[140px] h-[200px] sm:h-[140px] md:w-[160px] md:h-[160px] rounded-2xl overflow-hidden flex-shrink-0">
           <img
             src={booking.image}
             alt={booking.title}
@@ -264,50 +260,58 @@ function StayBookingItem({ booking, onReviewClick }) {
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 flex flex-col">
-  
-          <div className="flex items-start justify-between mb-2">
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-1">
+        <div className="flex-1 flex flex-col w-full">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-0 mb-3">
+            <div className="flex-1">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1">
                 {booking.title}
               </h3>
               <p className="text-sm text-gray-500">{booking.location}</p>
             </div>
-            <div className="text-2xl font-semibold text-gray-900">
+            <div className="text-xl sm:text-2xl font-semibold text-gray-900">
               {booking.price}
             </div>
           </div>
 
-  
           <div className="mb-4">
-            <span className="text-sm font-normal bg-[#FFF1E6] text-[#FF7D01] rounded-full px-2 py-1">
-              Rating 
-              <span className="font-semibold"> {booking.rating}</span> 
+            <span className="text-sm font-normal bg-[#FFF1E6] text-[#FF7D01] rounded-full px-3 py-1 inline-block">
+              Rating <span className="font-semibold">{booking.rating}</span>
             </span>
           </div>
 
-      
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-6 text-sm">
-              <div>
-                <span className="text-[#333333] block text-xs font-semibold mb-1">Check In</span>
-                <span className="font-normal text-xs text-gray-900">{booking.checkIn}</span>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex items-center gap-4 sm:gap-6 text-sm overflow-x-auto">
+              <div className="flex-shrink-0">
+                <span className="text-[#333333] block text-xs font-semibold mb-1">
+                  Check In
+                </span>
+                <span className="font-normal text-xs text-gray-900">
+                  {booking.checkIn}
+                </span>
               </div>
-              <div className="h-9 w-px bg-[#333333]/50"></div>
-              <div>
-                <span className="text-[#333333] font-semibold block text-xs mb-1">Check Out</span>
-                <span className="font-normal text-xs text-gray-900">{booking.checkOut}</span>
+              <div className="h-9 w-px bg-[#333333]/50 flex-shrink-0"></div>
+              <div className="flex-shrink-0">
+                <span className="text-[#333333] font-semibold block text-xs mb-1">
+                  Check Out
+                </span>
+                <span className="font-normal text-xs text-gray-900">
+                  {booking.checkOut}
+                </span>
               </div>
-              <div className="h-9 w-px bg-[#333333]/50"></div>
-              <div>
-                <span className="text-[#333333] font-semibold block text-xs mb-1">Guests</span>
-                <span className="font-normal text-xs text-gray-900">{booking.guests} Guests</span>
+              <div className="h-9 w-px bg-[#333333]/50 flex-shrink-0"></div>
+              <div className="flex-shrink-0">
+                <span className="text-[#333333] font-semibold block text-xs mb-1">
+                  Guests
+                </span>
+                <span className="font-normal text-xs text-gray-900">
+                  {booking.guests} Guests
+                </span>
               </div>
             </div>
-            
+
             <Link
               to="#"
-              className="text-black text-md font-medium hover:underline underline"
+              className="text-black text-sm sm:text-md font-medium hover:underline underline flex-shrink-0 self-start sm:self-auto"
             >
               Re-Book
             </Link>
@@ -315,25 +319,22 @@ function StayBookingItem({ booking, onReviewClick }) {
         </div>
       </div>
 
-   
-      <div className="flex items-center gap-4 mt-6">
-        <button className="w-14 h-14 flex items-center justify-center rounded-full bg-[#FFF3E6]">
-            <img src={HeartUnfilled} alt="Favorite" className="w-6 h-6" />
+      {/* Action Buttons */}
+      <div className="flex items-center gap-3 sm:gap-4 mt-4 sm:mt-6">
+        <button className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-[#FFF3E6] flex-shrink-0">
+          <img src={HeartUnfilled} alt="Favorite" className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
 
-        
         <button
           onClick={onReviewClick}
-          className="px-5 py-5 bg-[#FF7D01]/10 text-[#FF7D01] rounded-full font-medium shadow-sm hover:shadow transition"
+          className="flex-1 sm:flex-initial px-4 sm:px-5 py-3 sm:py-4 bg-[#FF7D01]/10 text-[#FF7D01] rounded-full font-medium shadow-sm hover:shadow transition text-sm sm:text-base"
         >
-            Make a Review
+          Make a Review
         </button>
       </div>
-      
     </div>
   );
 }
-
 
 function ActionItem({ icon, text, link = "#" }) {
   return (
@@ -345,7 +346,9 @@ function ActionItem({ icon, text, link = "#" }) {
         <div className="w-10 h-10 flex items-center justify-center rounded-full bg-[#3333330D]">
           <img src={icon} alt={text} className="w-4 h-4" />
         </div>
-        <span className="text-gray-700 font-extralight">{text}</span>
+        <span className="text-gray-700 font-extralight text-sm sm:text-base">
+          {text}
+        </span>
       </div>
     </Link>
   );
