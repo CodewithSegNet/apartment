@@ -3,13 +3,17 @@ import burger from "../assets/burger.svg";
 import profile from "../assets/profile.svg";
 import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect, useRef  } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = ({ showNavLinks = true }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
-  const [user, setUser] = useState(null);
+  const { user, loginUser, logoutUser, registerUser } = useAuth();
+  const [authError, setAuthError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [isLoadingAuth, setIsLoadingAuth] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -36,7 +40,7 @@ const Navbar = ({ showNavLinks = true }) => {
 
 
 
-    // Close dropdown when clicking outside
+  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       // if click is outside dropdown container, close it
@@ -92,12 +96,12 @@ const Navbar = ({ showNavLinks = true }) => {
   const handleAuthClick = (type) => {
 
 
-  if (type === "dashboard" || type === "profile" || type === "settings") {
-    navigate(`/${type}`);
-    setIsDropdownOpen(false);
-    setIsMobileMenuOpen(false);
-    return;
-  }
+    if (type === "dashboard" || type === "profile" || type === "settings") {
+      navigate(`/${type}`);
+      setIsDropdownOpen(false);
+      setIsMobileMenuOpen(false);
+      return;
+    }
     setModalType(type);
     setIsModalOpen(true);
     setIsDropdownOpen(false);
@@ -112,6 +116,8 @@ const Navbar = ({ showNavLinks = true }) => {
     setAgreeToTerms(false);
     setShowPassword(false);
     setShowConfirmPassword(false);
+    setAuthError("");
+    setFieldErrors({});
   };
 
   const handleModalClose = () => {
@@ -127,24 +133,39 @@ const Navbar = ({ showNavLinks = true }) => {
     setAgreeToTerms(false);
     setShowPassword(false);
     setShowConfirmPassword(false);
+    setAuthError("");
+    setFieldErrors({});
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Mock login - replace with actual authentication
-    setUser({ name: "John Doe" });
-    setIsModalOpen(false);
+    setAuthError("");
+    setFieldErrors({});
+    setIsLoadingAuth(true);
+    try {
+      await loginUser({ login: email, password });
+      setIsModalOpen(false);
+    } catch (error) {
+      if (error.status === 422) {
+        setFieldErrors(error.validationErrors || {});
+        setAuthError(error.message);
+      } else {
+        setAuthError(error.message || "Login failed");
+      }
+    } finally {
+      setIsLoadingAuth(false);
+    }
   };
 
-  const handleLogout = () => {
-    setUser(null);
+  const handleLogout = async () => {
+    await logoutUser();
     setIsDropdownOpen(false);
     setIsMobileMenuOpen(false);
   };
 
   const handleTabClick = (tab) => {
     setIsMobileMenuOpen(false);
-    
+
     // Use React Router navigation instead of window.location.href
     if (tab === "car-rental") {
       navigate("/car-rentals");
@@ -181,7 +202,7 @@ const Navbar = ({ showNavLinks = true }) => {
 
   const passwordStrength = getPasswordStrength(password);
 
-  const handleRegisterNext = () => {
+  const handleRegisterNext = async () => {
     if (registerStep === 1) {
       // Validate step 1
       if (
@@ -192,13 +213,33 @@ const Navbar = ({ showNavLinks = true }) => {
         passwordStrength.isStrong
       ) {
         setRegisterStep(2);
+        setAuthError('');
+        setFieldErrors({});
       }
     } else if (registerStep === 2) {
       // Handle final registration
       if (firstName && lastName && agreeToTerms) {
-        // Mock registration - replace with actual registration
-        setUser({ name: `${firstName} ${lastName}` });
-        setIsModalOpen(false);
+        setIsLoadingAuth(true);
+        setAuthError("");
+        setFieldErrors({});
+        try {
+          await registerUser({
+            first_name: firstName,
+            last_name: lastName,
+            email: email,
+            password: password
+          });
+          setIsModalOpen(false);
+        } catch (error) {
+          if (error.status === 422) {
+            setFieldErrors(error.validationErrors || {});
+            setAuthError(error.message);
+          } else {
+            setAuthError(error.message || "Registration failed");
+          }
+        } finally {
+          setIsLoadingAuth(false);
+        }
       }
     }
   };
@@ -219,7 +260,7 @@ const Navbar = ({ showNavLinks = true }) => {
             transition={{ type: "spring", stiffness: 300 }}
           >
             <Link to='/'>
-                        <img src={Logo} alt="Logo" className="h-10" />
+              <img src={Logo} alt="Logo" className="h-10" />
             </Link>
           </motion.div>
 
@@ -229,11 +270,10 @@ const Navbar = ({ showNavLinks = true }) => {
               <div className="flex relative p-1">
                 <motion.button
                   onClick={() => handleTabClick("apartments")}
-                  className={`relative z-10 px-6 py-2 flex-1 transition-all duration-300 ${
-                    activeTab === "apartments"
-                      ? "text-black font-medium"
-                      : "text-gray-500 hover:text-gray-700"
-                  }`}
+                  className={`relative z-10 px-6 py-2 flex-1 transition-all duration-300 ${activeTab === "apartments"
+                    ? "text-black font-medium"
+                    : "text-gray-500 hover:text-gray-700"
+                    }`}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -249,11 +289,10 @@ const Navbar = ({ showNavLinks = true }) => {
 
                 <motion.button
                   onClick={() => handleTabClick("car-rental")}
-                  className={`relative z-10 px-6 py-2 flex-1 transition-all duration-300 ${
-                    activeTab === "car-rental"
-                      ? "text-black font-medium"
-                      : "text-gray-500 hover:text-gray-700"
-                  }`}
+                  className={`relative z-10 px-6 py-2 flex-1 transition-all duration-300 ${activeTab === "car-rental"
+                    ? "text-black font-medium"
+                    : "text-gray-500 hover:text-gray-700"
+                    }`}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -271,7 +310,7 @@ const Navbar = ({ showNavLinks = true }) => {
           )}
 
           {/* Desktop Right Side */}
-          <div className="hidden md:flex bg-tertiary p-2 rounded-full items-center gap-3"  ref={dropdownRef}>
+          <div className="hidden md:flex bg-tertiary p-2 rounded-full items-center gap-3" ref={dropdownRef}>
             <div className="relative">
               <motion.button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -319,7 +358,7 @@ const Navbar = ({ showNavLinks = true }) => {
                       </>
                     ) : (
                       <>
-                           <motion.button
+                        <motion.button
                           onClick={() => handleAuthClick("register")}
                           className="w-full text-left py-2 px-3 text-gray-700 hover:font-semibold transition-colors duration-200"
                           whileHover={{ x: 4 }}
@@ -335,7 +374,7 @@ const Navbar = ({ showNavLinks = true }) => {
                         >
                           Sign In
                         </motion.button>
-                   
+
                       </>
                     )}
                   </motion.div>
@@ -343,23 +382,23 @@ const Navbar = ({ showNavLinks = true }) => {
               </AnimatePresence>
             </div>
 
-            <motion.div 
+            <motion.div
               className="flex items-center gap-2"
               whileHover={{ scale: 1.02 }}
             >
-              <motion.span 
+              <motion.span
                 className="text-sm font-medium text-gray-700"
                 animate={{ opacity: user ? 1 : 0.7 }}
                 transition={{ duration: 0.3 }}
               >
-                {user ? user.name : "Guest"}
+                {user ? (user.first_name || user.name || user.username || "User") : "Guest"}
               </motion.span>
-              <motion.img 
-                src={profile} 
-                alt="Profile" 
+              <motion.img
+                src={profile}
+                alt="Profile"
                 className="w-6 h-6"
-                // whileHover={{ rotate: 360 }}
-                // transition={{ duration: 0.5 }}
+              // whileHover={{ rotate: 360 }}
+              // transition={{ duration: 0.5 }}
               />
             </motion.div>
           </div>
@@ -367,15 +406,15 @@ const Navbar = ({ showNavLinks = true }) => {
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-2">
             <div className="flex items-center gap-2">
-              <motion.img 
-                src={profile} 
-                alt="Profile" 
+              <motion.img
+                src={profile}
+                alt="Profile"
                 className="w-6 h-6"
                 whileHover={{ rotate: 360 }}
                 transition={{ duration: 0.5 }}
               />
               <span className="text-sm font-medium text-gray-700 hidden sm:block">
-                {user ? user.name : "Guest"}
+                {user ? (user.first_name || user.name || user.username || "User") : "Guest"}
               </span>
             </div>
             <motion.button
@@ -411,11 +450,10 @@ const Navbar = ({ showNavLinks = true }) => {
               <div className="space-y-1">
                 <motion.button
                   onClick={() => handleTabClick("apartments")}
-                  className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 ${
-                    activeTab === "apartments"
-                      ? "bg-gray-100 text-base font-medium"
-                      : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
-                  }`}
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 ${activeTab === "apartments"
+                    ? "bg-gray-100 text-base font-medium"
+                    : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+                    }`}
                   whileHover={{ x: 4, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   initial={{ opacity: 0, x: -20 }}
@@ -434,11 +472,10 @@ const Navbar = ({ showNavLinks = true }) => {
 
                 <motion.button
                   onClick={() => handleTabClick("car-rental")}
-                  className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 ${
-                    activeTab === "car-rental"
-                      ? "bg-gray-100 text-bases font-medium"
-                      : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
-                  }`}
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 ${activeTab === "car-rental"
+                    ? "bg-gray-100 text-bases font-medium"
+                    : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+                    }`}
                   whileHover={{ x: 4, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   initial={{ opacity: 0, x: -20 }}
@@ -457,7 +494,7 @@ const Navbar = ({ showNavLinks = true }) => {
               </div>
 
               {/* Mobile Auth Buttons */}
-              <motion.div 
+              <motion.div
                 className="border-t border-gray-200 pt-2 mt-2 space-y-1"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -547,7 +584,7 @@ const Navbar = ({ showNavLinks = true }) => {
 
               {/* Sign In Form */}
               {modalType === "signin" && (
-                <motion.div 
+                <motion.div
                   className="space-y-3"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -556,8 +593,15 @@ const Navbar = ({ showNavLinks = true }) => {
                   <h3 className="text-sm font-semibold text-center">
                     Sign In To Your Account
                   </h3>
+
+                  {authError && (
+                    <div className="bg-red-50 text-red-600 p-2 text-xs rounded mb-2">
+                      {authError}
+                    </div>
+                  )}
+
                   <div className="w-full">
-                    <motion.div 
+                    <motion.div
                       className="flex items-center border border-gray-300 rounded-full overflow-hidden focus-within:ring-2 focus-within:ring-blue-500"
                       whileFocus={{ scale: 1.02 }}
                       transition={{ type: "spring", stiffness: 300 }}
@@ -575,7 +619,7 @@ const Navbar = ({ showNavLinks = true }) => {
                   </div>
 
                   <div className="w-full">
-                    <motion.div 
+                    <motion.div
                       className="flex items-center border border-gray-300 rounded-full overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 relative"
                       whileFocus={{ scale: 1.02 }}
                       transition={{ type: "spring", stiffness: 300 }}
@@ -655,11 +699,12 @@ const Navbar = ({ showNavLinks = true }) => {
 
                   <motion.button
                     onClick={handleLogin}
-                    className="w-full bg-primary text-white py-3 px-4 rounded-full hover:bg-opacity-80 transition-colors duration-200 font-medium text-sm"
+                    disabled={isLoadingAuth}
+                    className="w-full bg-primary text-white py-3 px-4 rounded-full hover:bg-opacity-80 transition-colors duration-200 font-medium text-sm disabled:opacity-50"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    Sign In
+                    {isLoadingAuth ? "Signing in..." : "Sign In"}
                   </motion.button>
 
                   {/* Divider */}
@@ -703,7 +748,7 @@ const Navbar = ({ showNavLinks = true }) => {
 
               {/* Register Form */}
               {modalType === "register" && (
-                <motion.div 
+                <motion.div
                   className="space-y-3"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -711,8 +756,13 @@ const Navbar = ({ showNavLinks = true }) => {
                 >
                   {registerStep === 1 && (
                     <>
+                      {authError && (
+                        <div className="bg-red-50 text-red-600 p-2 text-xs rounded mb-2">
+                          {authError}
+                        </div>
+                      )}
                       <div className="w-full">
-                        <motion.div 
+                        <motion.div
                           className="flex items-center border border-gray-300 rounded-full overflow-hidden focus-within:ring-2 focus-within:ring-blue-500"
                           whileFocus={{ scale: 1.02 }}
                         >
@@ -796,13 +846,12 @@ const Navbar = ({ showNavLinks = true }) => {
                                 Password Strength:
                               </span>
                               <span
-                                className={`text-sm font-medium ${
-                                  passwordStrength.strength === "Strong"
-                                    ? "text-green-600"
-                                    : passwordStrength.strength === "Medium"
+                                className={`text-sm font-medium ${passwordStrength.strength === "Strong"
+                                  ? "text-green-600"
+                                  : passwordStrength.strength === "Medium"
                                     ? "text-yellow-600"
                                     : "text-red-600"
-                                }`}
+                                  }`}
                               >
                                 {passwordStrength.strength}
                               </span>
@@ -972,6 +1021,12 @@ const Navbar = ({ showNavLinks = true }) => {
 
                   {registerStep === 2 && (
                     <>
+                      {authError && (
+                        <div className="bg-red-50 text-red-600 p-2 text-xs rounded mb-2 w-full text-center">
+                          {authError}
+                        </div>
+                      )}
+
                       <div className="text-center mb-4">
                         <h3 className="text-md font-semibold text-gray-800">
                           Complete Your Profile
@@ -1052,10 +1107,10 @@ const Navbar = ({ showNavLinks = true }) => {
                         </button>
                         <button
                           onClick={handleRegisterNext}
-                          disabled={!firstName || !lastName || !agreeToTerms}
+                          disabled={!firstName || !lastName || !agreeToTerms || isLoadingAuth}
                           className="flex-1 bg-primary text-white py-3 px-4 rounded-full hover:bg-opacity-80 transition-colors duration-200 font-medium text-base disabled:bg-gray-300 disabled:cursor-not-allowed"
                         >
-                          Create Account
+                          {isLoadingAuth ? "Creating..." : "Create Account"}
                         </button>
                       </div>
                     </>
