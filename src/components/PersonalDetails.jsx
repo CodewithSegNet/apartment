@@ -10,11 +10,13 @@ import FullNameModal from './FullNameModal';
 import PhoneNumberModal from './PhoneNumberModal';
 import EmailAddressModal from './EmailAddressModal';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from './Toast';
 import { apiFetch, BASE_URL } from '../lib/api';
 import { getAccessToken } from '../lib/auth';
 
 export default function PersonalDetails() {
   const { user, logoutUser, refreshUser } = useAuth();
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
@@ -83,10 +85,14 @@ export default function PersonalDetails() {
       }
 
       await refreshUser();
-      setAvatarPreview(null); // clear local preview — refreshUser now has the real saved URL
+      showToast('Profile photo updated successfully.');
+      // /auth/me now returns avatar_url — the real saved URL is in context.
+      // Clear the local preview so the context value takes over cleanly.
+      setAvatarPreview(null);
     } catch (err) {
       setAvatarPreview(null); // revert preview on failure
       setAvatarError(err.message || 'Failed to upload photo. Please try again.');
+      showToast(err.message || 'Failed to upload photo.', 'error');
     } finally {
       setAvatarLoading(false);
       // Reset input so same file can be re-selected if needed
