@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { apiFetch } from '../lib/api';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from './Toast';
 
 function FullNameModal({ isOpen, onClose, currentFullName = '' }) {
   const { refreshUser } = useAuth();
+  const { showToast } = useToast();
 
   // Split the full name into first/last for the two separate inputs
   const splitName = (full) => {
@@ -54,6 +56,7 @@ function FullNameModal({ isOpen, onClose, currentFullName = '' }) {
         }),
       });
       await refreshUser();
+      showToast('Full name updated successfully.');
       onClose();
     } catch (err) {
       setError(err.message || 'Failed to update name. Please try again.');
