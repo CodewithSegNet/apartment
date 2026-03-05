@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { apiFetch } from '../lib/api';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from './Toast';
 
 function EmailAddressModal({ isOpen, onClose, currentEmail = '' }) {
   const { refreshUser } = useAuth();
+  const { showToast } = useToast();
   const [email, setEmail] = useState(currentEmail);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -40,6 +42,7 @@ function EmailAddressModal({ isOpen, onClose, currentEmail = '' }) {
         body: JSON.stringify({ email: email.trim().toLowerCase() }),
       });
       await refreshUser();
+      showToast('Email address updated successfully.');
       onClose();
     } catch (err) {
       setError(err.message || 'Failed to update email. Please try again.');
