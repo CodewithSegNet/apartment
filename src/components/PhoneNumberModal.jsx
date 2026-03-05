@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { apiFetch } from '../lib/api';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from './Toast';
 
 function PhoneNumberModal({ isOpen, onClose, currentPhoneNumber = '' }) {
   const { refreshUser } = useAuth();
+  const { showToast } = useToast();
   const [step, setStep] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState(currentPhoneNumber);
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
@@ -91,6 +93,7 @@ function PhoneNumberModal({ isOpen, onClose, currentPhoneNumber = '' }) {
         body: JSON.stringify({ phone_number: phoneNumber.trim() }),
       });
       await refreshUser();
+      showToast('Phone number updated successfully.');
       onClose();
     } catch (err) {
       setOtpError(err.message || 'Failed to update phone number. Please try again.');
