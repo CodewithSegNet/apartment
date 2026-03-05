@@ -17,7 +17,6 @@ function PasswordModal({ activeModal, onClose }) {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [apiError, setApiError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [verifying, setVerifying] = useState(false);
 
   // Reset state when modal opens/closes
   useEffect(() => {
@@ -54,46 +53,11 @@ function PasswordModal({ activeModal, onClose }) {
 
   const passwordStrength = getPasswordStrength(passwordValue);
 
-  // Verify current password against backend before advancing to step 2
-  const handleVerifyCurrentPassword = async () => {
+  // Step 1 just collects the current password — real validation happens on final submit
+  const handleVerifyCurrentPassword = () => {
     if (!currentPasswordValue) return;
     setApiError('');
-    setVerifying(true);
-    try {
-      // We verify by attempting the change with a dummy new password check —
-      // instead, we call a lightweight verify endpoint if available, or use
-      // a dedicated check. Since the backend validates current_password inside
-      // change-password, we pass a sentinel to trigger only the current-password
-      // check. The cleanest approach: call change-password with the real current
-      // password and an intentionally weak new password so validation short-circuits
-      // BEFORE the hash write. But that is fragile.
-      //
-      // Better: the backend returns 401 if current_password is wrong regardless
-      // of new_password validity. So we send the real current password with a
-      // valid-format but wrong new password — the backend will 401 if current is
-      // wrong, or 400/422 if current is right but new password fails validation.
-      // We treat 401 as wrong password, anything else as current password is correct.
-      await apiFetch('/users/change-password', {
-        method: 'PUT',
-        body: JSON.stringify({
-          current_password: currentPasswordValue,
-          new_password: '__VERIFY_ONLY__Aa1!',
-        }),
-      });
-      // If we reach here, current password was correct AND new password happened
-      // to pass (unlikely with sentinel). Either way, current password is valid.
-      setStep(2);
-    } catch (err) {
-      if (err.status === 401 || (err.message && err.message.toLowerCase().includes('incorrect'))) {
-        setApiError('Current password is incorrect. Please try again.');
-      } else {
-        // Any other error (400 same-password, 422 validation) means the current
-        // password was accepted — advance to step 2.
-        setStep(2);
-      }
-    } finally {
-      setVerifying(false);
-    }
+    setStep(2);
   };
 
   const handleChangePassword = async () => {
@@ -160,10 +124,10 @@ function PasswordModal({ activeModal, onClose }) {
 
               <button
                 onClick={handleVerifyCurrentPassword}
-                disabled={!currentPasswordValue || verifying}
+                disabled={!currentPasswordValue}
                 className="w-full bg-[#FF7D01] hover:bg-orange-600 text-white font-medium py-3.5 rounded-full transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {verifying ? 'Verifying...' : 'Continue'}
+                Continue
               </button>
             </>
           );
