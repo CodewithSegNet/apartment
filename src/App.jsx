@@ -13,6 +13,7 @@ import NotFound from './components/NotFound';
 import ManageStays from './components/ManageStays';
 import { WizardProvider } from './context/WizardContext';
 import { AuthProvider } from './context/AuthContext';
+import { ToastProvider } from './components/Toast';
 import Basic from './pages/upload/Basic';
 import Location from './pages/upload/Location';
 import Photos from './pages/upload/Photos';
@@ -41,6 +42,7 @@ function App() {
   return (
     <GoogleOAuthProvider clientId="">
       <AuthProvider>
+        <ToastProvider>
         <PropertyProvider>
           <CarProvider>
             <WizardProvider>
@@ -85,6 +87,7 @@ function App() {
             </WizardProvider>
           </CarProvider>
         </PropertyProvider>
+        </ToastProvider>
       </AuthProvider>
     </GoogleOAuthProvider>
   );
